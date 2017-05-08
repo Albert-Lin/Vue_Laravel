@@ -43,6 +43,8 @@
             transition: 0.7s;
             z-index: 1;
             box-shadow: 10px 0 30px rgba(120, 120, 150, 0.3);
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
         #opt-btn{
@@ -63,19 +65,15 @@
 
     <div id="app">
 	    <div  class="google_map">
-		    <google_map :center="data.map.center"></google_map>
-			<map_ctrl_panel :controllers="data.ctrlPanel.ctrls" style="top: 100px; right: 10px;"></map_ctrl_panel>
+		    <google_map :center="data.map.center"
+                        :marker_icons="data.map.marker_icons"
+                        :add_markers="data.map.add_markers"
+                        :remove_markers="data.map.remove_markers"></google_map>
+			<map_ctrl_panel :controllers="data.ctrlPanel.ctrls" style="top: 150px; right: 10px;"></map_ctrl_panel>
 	    </div>
-        <div id="opt-content" class="col-lg-3 col-md-4 col-sm-6 col-xs-8">
-
-            <card :prop="{
-                    head: {icon:'glyphicon-fire'},
-                  }">
-            </card>
-
-        </div>
+        <div id="opt-content" class="col-lg-3 col-md-4 col-sm-6 col-xs-8"></div>
         <fun_bar id="opt-btn" class="col-lg-1"
-                 :items="items"
+                 :items="data.funBarItems"
                  :width="60"
                  :height="60"
                  v-on:item-click="funBarClick">

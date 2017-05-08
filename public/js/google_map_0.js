@@ -1109,48 +1109,41 @@ module.exports = g;
 __webpack_require__(33);
 window.Vue = __webpack_require__(51);
 
-window.data = {
-	map: {
-		center: {
-			lat: 24.250746,
-			lng: 120.7304326
-		}
-	},
-	ctrlPanel: {
-		panelStyle: { display: 'block' },
-		ctrls: [{
-			bgImage: 'http://vue.semanticlab.com/img/nodejs.png',
-			fun: function fun(param) {
-				alert('nodejs');
-			}
-		}, {
-			bgImage: 'http://vue.semanticlab.com/img/vue.svg',
-			fun: function fun(param) {
-				alert('nodejs ' + param);
+{
+	// 想一想甚麼樣的資料要拉出來 && 跟 Vue.data 有什麼樣的差異
+	window.data = {
+		map: {
+			center: {
+				lat: 24.250746,
+				lng: 120.7304326
 			},
-			param: 'from params'
-		}, {
-			bgImage: 'http://vue.semanticlab.com/img/laravel.png',
-			fun: function fun(param) {
-				for (var i = 0; i < param.length; i++) {
-					console.log('laravel ' + param[i]);
+			add_markers: [],
+			remove_markers: []
+		},
+		ctrlPanel: {
+			panelStyle: { display: 'block' },
+			ctrls: [{
+				bgImage: 'http://vue.semanticlab.com/img/nodejs.png',
+				fun: function fun(param) {
+					alert('nodejs');
 				}
-			},
-			param: ['A', 'B', 'C']
-		}]
-	}
-};
-
-window.newapp = new Vue({
-	el: '#app',
-	components: {
-		google_map: __webpack_require__(43),
-		map_ctrl_panel: __webpack_require__(42),
-		fun_bar: __webpack_require__(41)
-	},
-	data: {
-		data: window.data,
-		items: [{
+			}, {
+				bgImage: 'http://vue.semanticlab.com/img/vue.svg',
+				fun: function fun(param) {
+					alert('nodejs ' + param);
+				},
+				param: 'from params'
+			}, {
+				bgImage: 'https://cdn1.iconfinder.com/data/icons/simple-icons/4096/laravel-4096-black.png',
+				fun: function fun(param) {
+					for (var i = 0; i < param.length; i++) {
+						console.log('laravel ' + param[i]);
+					}
+				},
+				param: ['A', 'B', 'C']
+			}]
+		},
+		funBarItems: [{
 			glyphicon: 'glyphicon-flash',
 			fun: {
 				fun: function fun() {
@@ -1174,31 +1167,47 @@ window.newapp = new Vue({
 				},
 				param: 'I am param for COG'
 			}
-		}],
-		status: 'close',
-		lastClick: undefined
-	},
-	methods: {
-		funBarClick: function funBarClick(response) {
-			if (this.lastClick === response[0].id) {
-				if (this.status === 'close') {
-					document.getElementById('opt-content').style.transform = 'translateX(60px)';
-					this.status = 'open';
-				} else {
-					document.getElementById('opt-content').style.transform = 'translateX(-100%)';
-					this.status = 'close';
-				}
-			} else {
-				if (this.status === 'close') {
-					document.getElementById('opt-content').style.transform = 'translateX(60px)';
-					this.status = 'open';
-				}
-			}
+		}]
+	};
 
-			this.lastClick = response[0].id;
+	init();
+}
+
+function init() {
+	window.vueApp = new Vue({
+		el: '#app',
+		components: {
+			google_map: __webpack_require__(43),
+			map_ctrl_panel: __webpack_require__(42),
+			fun_bar: __webpack_require__(41)
+		},
+		data: {
+			data: window.data,
+			status: 'close',
+			lastClick: undefined
+		},
+		methods: {
+			funBarClick: function funBarClick(response) {
+				if (this.lastClick === response[0].id) {
+					if (this.status === 'close') {
+						document.getElementById('opt-content').style.transform = 'translateX(60px)';
+						this.status = 'open';
+					} else {
+						document.getElementById('opt-content').style.transform = 'translateX(-100%)';
+						this.status = 'close';
+					}
+				} else {
+					if (this.status === 'close') {
+						document.getElementById('opt-content').style.transform = 'translateX(60px)';
+						this.status = 'open';
+					}
+				}
+
+				this.lastClick = response[0].id;
+			}
 		}
-	}
-});
+	});
+}
 
 /***/ }),
 /* 12 */
@@ -2156,10 +2165,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['center', 'controllers'],
+	props: ['center', 'controllers', 'add_markers', 'remove_markers'],
 	data: function data() {
 		return {
-			map: undefined
+			map: undefined,
+			markerList: []
 		};
 	},
 
@@ -2177,7 +2187,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			result.zoomControlOptions = result.zoomControlOptions ? result.zoomControlOptions : { position: google.maps.ControlPosition.RIGHT_BOTTOM };
 
 			result.mapTypeControl = result.mapTypeControl ? result.mapTypeControl : true;
-			result.mapTypeControlOptions = result.mapTypeControlOptions ? result.mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_RIGHT };
+			result.mapTypeControlOptions = result.mapTypeControlOptions ? result.mapTypeControlOptions : {
+				position: google.maps.ControlPosition.TOP_RIGHT,
+				style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+				mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain']
+			};
 
 			result.scaleControl = result.scaleControl ? result.scaleControl : true;
 			result.scaleControlOptions = result.scaleControlOptions ? result.scaleControlOptions : {};
@@ -2188,6 +2202,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			result.rotateControl = result.rotateControl ? result.rotateControl : true;
 			result.rotateControlOptions = result.rotateControlOptions ? result.rotateControlOptions : { position: google.maps.ControlPosition.RIGHT_BOTTOM };
 			return result;
+		},
+		add_marker: function add_marker() {
+			return this.add_markers ? this.add_markers : [];
+		},
+		remove_marker: function remove_marker() {
+			return this.remove_markers ? this.remove_markers : [];
 		}
 	},
 	watch: {
@@ -2200,6 +2220,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			console.log('got new lng: ' + newLng);
 			this.mapCenter.lng = newLng;
 			this.map.setCenter({ lat: this.mapCenter.lat, lng: this.mapCenter.lng });
+		},
+
+		add_marker: function add_marker(value) {
+			this.addMarkers();
+		},
+		remove_marker: function remove_marker(value) {
+			this.removeMarkers();
 		}
 	},
 	methods: {
@@ -2216,12 +2243,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				streetViewControl: this.mapCtrl.streetViewControl,
 				streetViewControlOptions: this.mapCtrl.streetViewControlOptions,
 				rotateControl: this.mapCtrl.rotateControl,
-				rotateControlOptions: this.mapCtrl.rotateControlOptions
+				rotateControlOptions: this.mapCtrl.rotateControlOptions,
+
+				addressControlOptions: {
+					position: google.maps.ControlPosition.BOTTOM_CENTER
+				}
 			});
+		},
+		addMarkers: function addMarkers() {
+			if (this.add_marker !== undefined && this.add_marker.length > 0) {
+				for (var i = 0; i < this.add_marker.length; i++) {
+					this.addMarker(this.add_marker[i]);
+				}
+			}
+
+			this.add_marker = [];
+		},
+		addMarker: function addMarker(marker) {
+			var add = true;
+			if (this.markerList[marker.id] !== undefined) {
+				if (confirm("Marker exist, do you want to replace it?") === false) {
+					add = false;
+				} else {
+					this.removeMarker(marker.id);
+				}
+			}
+
+			if (add === true) {
+				var markerItem = new google.maps.Marker(marker);
+				this.markerList[marker.id] = markerItem;
+				markerItem.setMap(this.map);
+			}
+		},
+		removeMarkers: function removeMarkers() {
+			if (this.remove_marker !== undefined && this.remove_marker.length > 0) {
+				for (var i = 0; i < this.remove_marker.length; i++) {
+					this.removeMarker(this.remove_marker[i]);
+				}
+			}
+
+			this.remove_marker = [];
+		},
+		removeMarker: function removeMarker(index) {
+			var marker = this.markerList[index];
+			if (marker !== undefined) {
+				marker.setMap(null);
+				this.markerList[index] = undefined;
+			}
 		}
 	},
 	mounted: function mounted() {
 		this.googleMapInit();
+		this.addMarkers();
 	}
 });
 
@@ -4658,14 +4731,14 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n#map{\n\theight: 100%;\n\twidth: 100%;\n\tposition: absolute;\n\tz-index: 10;\n}\n", ""]);
+exports.push([module.i, "\n.controllerPanel{\n\twidth: 50px;\n\tmin-height: 100px;\n\tpadding: 0;\n\tborder-radius: 5px;\n\ttop: 100px;\n\tright: 10px;\n\tposition: absolute;\n\tz-index: 11;\n\tbackground-color: #ffffff;\n\tbox-shadow: 0 0 15px rgba(100, 100, 100, 0.5);\n}\n.controllerPanel .controller {\n\twidth: 40px;\n\theight: 40px;\n\tpadding: 0;\n\tborder: 0;\n\tmargin: 5px;\n\tbackground-repeat: no-repeat;\n}\n", ""]);
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n.controllerPanel{\n\twidth: 50px;\n\tmin-height: 100px;\n\tpadding: 0;\n\tborder-radius: 5px;\n\ttop: 100px;\n\tright: 10px;\n\tposition: absolute;\n\tz-index: 11;\n\tbackground-color: #ffffff;\n\tbox-shadow: 0 0 15px rgba(100, 100, 100, 0.5);\n}\n.controllerPanel .controller {\n\twidth: 40px;\n\theight: 40px;\n\tpadding: 0;\n\tborder: 0;\n\tmargin: 5px;\n\tbackground-repeat: no-repeat;\n}\n", ""]);
+exports.push([module.i, "\n#map{\n\theight: 100%;\n\twidth: 100%;\n\tposition: absolute;\n\tz-index: 10;\n}\n.gm-iv-container{\n\tposition: fixed;\n\tright: 50px;\n\tbottom: 22px;\n}\n.gm-iv-address{\n\tposition: fixed;\n\tright: 76px;\n\tbottom: 22px;\n\tmin-height: 56px;\n}\n.gm-iv-marker-icon{\n\ttop: -10px;\n}\n.gm-iv-address-link{\n\tdisplay: none;\n}\n.gm-iv-address .gm-iv-vertical-separator{\n\ttop: -1px;\n}\n\n", ""]);
 
 /***/ }),
 /* 37 */
@@ -32234,7 +32307,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue\\resources\\assets\\js\\components\\FunctionBar.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FunctionBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32245,9 +32318,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7ebab7fd", Component.options)
+    hotAPI.createRecord("data-v-8ef8f13a", Component.options)
   } else {
-    hotAPI.reload("data-v-7ebab7fd", Component.options)
+    hotAPI.reload("data-v-8ef8f13a", Component.options)
   }
 })()}
 
@@ -32260,19 +32333,19 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(48)
+__webpack_require__(47)
 
 var Component = __webpack_require__(3)(
   /* script */
   __webpack_require__(31),
   /* template */
-  __webpack_require__(45),
+  __webpack_require__(44),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ControllerPanel.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32283,9 +32356,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4037db3e", Component.options)
+    hotAPI.createRecord("data-v-0876c1a4", Component.options)
   } else {
-    hotAPI.reload("data-v-4037db3e", Component.options)
+    hotAPI.reload("data-v-0876c1a4", Component.options)
   }
 })()}
 
@@ -32298,19 +32371,19 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(47)
+__webpack_require__(48)
 
 var Component = __webpack_require__(3)(
   /* script */
   __webpack_require__(32),
   /* template */
-  __webpack_require__(44),
+  __webpack_require__(45),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] googleMap.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32321,9 +32394,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2aabc4f9", Component.options)
+    hotAPI.createRecord("data-v-2c18efdf", Component.options)
   } else {
-    hotAPI.reload("data-v-2aabc4f9", Component.options)
+    hotAPI.reload("data-v-2c18efdf", Component.options)
   }
 })()}
 
@@ -32332,29 +32405,6 @@ module.exports = Component.exports
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "google_map"
-  }, [_c('div', {
-    attrs: {
-      "id": "map"
-    }
-  })])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2aabc4f9", module.exports)
-  }
-}
-
-/***/ }),
-/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32376,7 +32426,30 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4037db3e", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-0876c1a4", module.exports)
+  }
+}
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "google_map"
+  }, [_c('div', {
+    attrs: {
+      "id": "map"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2c18efdf", module.exports)
   }
 }
 
@@ -32406,7 +32479,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7ebab7fd", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-8ef8f13a", module.exports)
   }
 }
 
@@ -32421,13 +32494,13 @@ var content = __webpack_require__(35);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("8c5fe420", content, false);
+var update = __webpack_require__(4)("5a94dfd7", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2aabc4f9\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./googleMap.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2aabc4f9\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./googleMap.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-0876c1a4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ControllerPanel.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-0876c1a4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ControllerPanel.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -32447,13 +32520,13 @@ var content = __webpack_require__(36);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("1ff62d6f", content, false);
+var update = __webpack_require__(4)("24ec0fe9", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4037db3e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ControllerPanel.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4037db3e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ControllerPanel.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2c18efdf\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./googleMap.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2c18efdf\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./googleMap.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -32473,13 +32546,13 @@ var content = __webpack_require__(37);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("43fa3ebf", content, false);
+var update = __webpack_require__(4)("65034737", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-7ebab7fd\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FunctionBar.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-7ebab7fd\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FunctionBar.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-8ef8f13a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FunctionBar.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-8ef8f13a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FunctionBar.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -32527,7 +32600,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.3.1
+ * Vue.js v2.3.2
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -35830,6 +35903,7 @@ function createFunctionalComponent (
   });
   if (vnode instanceof VNode) {
     vnode.functionalContext = context;
+    vnode.functionalOptions = Ctor.options;
     if (data.slot) {
       (vnode.data || (vnode.data = {})).slot = data.slot;
     }
@@ -36918,7 +36992,13 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$3.version = '2.3.1';
+Object.defineProperty(Vue$3.prototype, '$ssrContext', {
+  get: function get () {
+    return this.$vnode.ssrContext
+  }
+});
+
+Vue$3.version = '2.3.2';
 
 /*  */
 
