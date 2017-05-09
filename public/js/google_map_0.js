@@ -1089,7 +1089,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\infoWindow\\table_1.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\infoWindow\\table_1.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] table_1.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2283,9 +2283,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		remove_marker: function remove_marker(value) {
 			this.removeMarkers();
-		},
-		infoWindowProp: function infoWindowProp(value) {
-			console.log('CHANGE');
 		}
 	},
 	methods: {
@@ -2334,20 +2331,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (add === true) {
 				var current = this;
 				var map = this.map;
+				var infowindowTemplate = document.getElementById('infowindowTemplate');
+				var style = window.getComputedStyle(infowindowTemplate.children[0]);
+				var width = parseInt(style.width.replace(/px/gi, '')) + 2 + 'px';
+				var height = parseInt(style.height.replace(/px/gi, '')) + 9 + 'px';
 				var markerItem = new google.maps.Marker(marker);
 				var windowItem = new google.maps.InfoWindow({
-					content: '<div id="info_window_' + marker.id + '">CONTENT</div>',
-					maxWidth: 400
+					content: '<div id="info_window_' + marker.id + '"  style="min-width:' + width + '; min-height:' + height + ';"><div></div></div>',
+					maxWidth: 600
 				});
+
 				this.windowList[marker.id] = windowItem;
 				this.markerList[marker.id] = markerItem;
+
 				markerItem.addListener('click', function () {
 					current.info_window_prop = marker.markerData;
-					windowItem.open(map, markerItem);
-					document.getElementById('info_window_' + marker.id).innerHTML = document.getElementById('infowindowTemplate').innerHTML;
-					if (current.info_window_prop.lat === 0) {
-						new google.maps.event.trigger(markerItem, 'click');
-					}
+					setTimeout(function () {
+						windowItem.open(map, markerItem);
+					}, 200);
+					setTimeout(function () {
+						document.getElementById('info_window_' + marker.id).innerHTML = infowindowTemplate.innerHTML;
+					}, 250);
 				});
 				markerItem.setMap(this.map);
 			}
@@ -2371,7 +2375,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	mounted: function mounted() {
 		this.googleMapInit();
-		console.log(this.markerIcons);
 		this.addMarkers();
 	}
 });
@@ -4971,7 +4974,7 @@ exports.push([module.i, "\n.fun-btn{\n\tpadding: 0;\n\tborder: 0;\n\tmargin: 0;\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.infoWindow{\n\twidth: 100%;\n\theight: auto;\n\tpadding: 10px;\n\tborder-style: solid;\n\tborder-width: 1px 1px 1px 10px;\n\tborder-color: #4CAF50;\n\tmargin: 0;\n}\n", ""]);
+exports.push([module.i, "\n.infoWindow_1{\n\twidth: 300px; /*建議要給，畫面比較順*/\n\theight: 200px; /*建議要給，畫面比較順*/\n\tpadding: 10px;\n\tborder-style: solid;\n\tborder-width: 1px 1px 1px 10px;\n\tborder-color: #4CAF50;\n\tmargin: 0;\n}\n", ""]);
 
 /***/ }),
 /* 42 */
@@ -32533,7 +32536,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FunctionBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32571,7 +32574,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ControllerPanel.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32609,7 +32612,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] googleMap.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32721,7 +32724,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "infoWindow"
+    staticClass: "infoWindow_1"
   }, [_c('table', {
     staticClass: "table table-striped"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("POSITION")]), _c('td', [_vm._v(_vm._s(_vm.prop.position.lat + ' ' + _vm.prop.position.lng))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("LABEL")]), _c('td', [_vm._v(_vm._s(_vm.prop.label))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("TITLE")]), _c('td', [_vm._v(_vm._s(_vm.prop.title))])])])])])
@@ -32879,7 +32882,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.3.2
+ * Vue.js v2.3.1
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -36182,7 +36185,6 @@ function createFunctionalComponent (
   });
   if (vnode instanceof VNode) {
     vnode.functionalContext = context;
-    vnode.functionalOptions = Ctor.options;
     if (data.slot) {
       (vnode.data || (vnode.data = {})).slot = data.slot;
     }
@@ -37271,13 +37273,7 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Object.defineProperty(Vue$3.prototype, '$ssrContext', {
-  get: function get () {
-    return this.$vnode.ssrContext
-  }
-});
-
-Vue$3.version = '2.3.2';
+Vue$3.version = '2.3.1';
 
 /*  */
 

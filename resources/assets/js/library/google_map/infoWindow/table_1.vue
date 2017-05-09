@@ -1,5 +1,5 @@
 <template>
-	<div class="infoWindow">
+	<div class="infoWindow_1">
 		<table class="table table-striped">
 			<thead><tr><th>KEY</th><th>VALUE</th></tr></thead>
 			<tbody>
@@ -25,9 +25,9 @@
 
 
 <style>
-	.infoWindow{
-		width: 100%;
-		height: auto;
+	.infoWindow_1{
+		width: 300px; /*建議要給，畫面比較順*/
+		height: 200px; /*建議要給，畫面比較順*/
 		padding: 10px;
 		border-style: solid;
 		border-width: 1px 1px 1px 10px;

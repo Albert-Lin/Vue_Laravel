@@ -83,9 +83,6 @@
 			},
 			remove_marker: function(value){
 				this.removeMarkers();
-			},
-			infoWindowProp: function(value){
-				console.log('CHANGE');
 			}
 		},
 		methods:{
@@ -135,20 +132,27 @@
 				if(add === true){
 					let current = this;
 					let map = this.map;
+					let infowindowTemplate = document.getElementById('infowindowTemplate');
+					let style = window.getComputedStyle(infowindowTemplate.children[0]);
+					let width = parseInt(style.width.replace(/px/gi, ''))+2+'px';
+					let height = parseInt(style.height.replace(/px/gi, ''))+9+'px';
 					let markerItem = new google.maps.Marker(marker);
 					let windowItem = new google.maps.InfoWindow({
-						content: '<div id="info_window_'+marker.id+'">CONTENT</div>',
-						maxWidth: 400
+						content: '<div id="info_window_'+marker.id+'"  style="min-width:'+width+'; min-height:'+height+';"><div></div></div>',
+						maxWidth: 600
 					});
+
 					this.windowList[marker.id] = windowItem;
 					this.markerList[marker.id] = markerItem;
+
 					markerItem.addListener('click', function(){
 						current.info_window_prop = marker.markerData;
-						windowItem.open(map, markerItem);
-						document.getElementById('info_window_'+marker.id).innerHTML = document.getElementById('infowindowTemplate').innerHTML;
-						if(current.info_window_prop.lat === 0){
-							new google.maps.event.trigger( markerItem, 'click' );
-						}
+						setTimeout(function(){
+							windowItem.open(map, markerItem);
+						}, 200);
+						setTimeout(function(){
+							document.getElementById('info_window_'+marker.id).innerHTML = infowindowTemplate.innerHTML;
+						}, 250);
 					});
 					markerItem.setMap(this.map);
 				}
@@ -172,7 +176,6 @@
 		},
 		mounted(){
 			this.googleMapInit();
-			console.log(this.markerIcons);
 			this.addMarkers();
 		}
 	}
