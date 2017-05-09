@@ -4,6 +4,7 @@
 
 require('../bootstrap');
 window.Vue = require('vue');
+let googleMap = require('../library/google_map/GoogleMap.js').default;
 
 {
 	// 想一想甚麼樣的資料要拉出來 && 跟 Vue.data 有什麼樣的差異
@@ -14,12 +15,20 @@ window.Vue = require('vue');
 				lng: 120.7304326
 			},
 			marker_icons:[
-				{ url: 'http://vue.semanticlab.com/img/nodejs.png', size: new google.maps.Size(20, 32), origin: new google.maps.Point(0, 0), anchor: new google.maps.Point(0, 32) },
+				googleMap.markerIcon('http://vue.semanticlab.com/img/nodejs.png'),
+				googleMap.markerIcon('http://vue.semanticlab.com/img/vue.png'),
+				googleMap.markerIcon('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-256.png'),
 			],
+			// info_window_prop:{position:{lat: 0, lng: 0}, label:'LABEL', title:'標題'},
 			add_markers: [
-				{id: 0, position:{lat:25.0274747, lng:121.5218001}, title:'A'},
-				{id: 1, position:{lat:24.2526852, lng:120.7302684}, title:'b'},
-				{id: 2, position:{lat:24.2521503, lng:120.7292076}, title:'c'}
+				googleMap.marker({position:{lat: 25.0274747, lng: 121.5218001}, label:'古亭', title:'FIRST'},
+					0, [25.0274747, 121.5218001], 0, googleMap.markerLabel('古亭', '#44ff44', 'fantasy,微軟正黑體'), undefined, 'FIRST', 0),
+				googleMap.marker({position:{lat: 24.2526852, lng: 120.7302684}, label:'文化中心', title:'SEC'},
+					1, [24.2526852, 120.7302684], 1, googleMap.markerLabel('文化中心', '#446666', 'fantasy,微軟正黑體'), undefined, 'SEC', 1),
+				googleMap.marker({position:{lat: 24.2521503, lng: 120.7292076}, label:'I don\'t know', title:'THIRD'},
+					2, [24.2521503, 120.7292076], 1, googleMap.markerLabel('I don\'t know', '#446666', 'fantasy,微軟正黑體'), undefined, 'THIRD', 2),
+				googleMap.marker({position:{lat: 24.2526852, lng: 120.7302684}, label:'文化中心 2', title:'SEC 2'},
+					3, [24.2526852, 120.7302684], 2, googleMap.markerLabel('文化中心 2', '#ff4444', 'fantasy,微軟正黑體'), undefined, 'SEC 2', 3),
 			],
 			remove_markers: []
 		},
@@ -94,6 +103,7 @@ function init(){
 			google_map: require('../library/google_map/googleMap.vue'),
 			map_ctrl_panel: require('../library/google_map/ControllerPanel.vue'),
 			fun_bar: require('../components/FunctionBar.vue'),
+			infowindow: require('../library/google_map/infoWindow/table_1.vue'),
 		},
 		data:{
 			data: window.data,

@@ -1,19 +1,27 @@
 <template>
 	<div class="google_map">
 		<div id="map"></div>
+		<div id="infowindowTemplate">
+			<infowindow :prop="infoWindowProp"></infowindow>
+		</div>
 	</div>
 </template>
 
  
 
 <script>
-	
+		
 	export default {
+		components:{
+			infowindow: require('./infoWindow/table_1.vue'),
+		},
 		props:['center', 'controllers', 'marker_icons', 'add_markers', 'remove_markers'],
 		data(){
 			return {
 				map: undefined,
 				markerList: [],
+				windowList: [],
+				info_window_prop: undefined,
 			};
 		},
 		computed:{
@@ -51,9 +59,12 @@
 			},
 			remove_marker: function(){
 				return (this.remove_markers)? this.remove_markers : [];
-			}
+			},
 			markerIcons: function(){
 				return (this.marker_icons)? this.marker_icons : [];
+			},
+			infoWindowProp: function(){
+				return (this.info_window_prop)? this.info_window_prop : {position:{lat: 0, lng: 0}, label:'LABEL', title:'標題'};
 			}
 		},
 		watch:{
@@ -72,6 +83,9 @@
 			},
 			remove_marker: function(value){
 				this.removeMarkers();
+			},
+			infoWindowProp: function(value){
+				console.log('CHANGE');
 			}
 		},
 		methods:{
@@ -98,6 +112,9 @@
 			addMarkers: function(){
 				if(this.add_marker !== undefined && this.add_marker.length > 0){
 					for(let i = 0; i < this.add_marker.length; i++){
+						if(this.add_marker[i].icon !== undefined && !(this.add_marker[i].icon instanceof Object)){
+							this.add_marker[i].icon = this.markerIcons[this.add_marker[i].icon];
+						}
 						this.addMarker(this.add_marker[i]);
 					}
 				}
@@ -116,8 +133,23 @@
 				}
 				
 				if(add === true){
+					let current = this;
+					let map = this.map;
 					let markerItem = new google.maps.Marker(marker);
+					let windowItem = new google.maps.InfoWindow({
+						content: '<div id="info_window_'+marker.id+'">CONTENT</div>',
+						maxWidth: 400
+					});
+					this.windowList[marker.id] = windowItem;
 					this.markerList[marker.id] = markerItem;
+					markerItem.addListener('click', function(){
+						current.info_window_prop = marker.markerData;
+						windowItem.open(map, markerItem);
+						document.getElementById('info_window_'+marker.id).innerHTML = document.getElementById('infowindowTemplate').innerHTML;
+						if(current.info_window_prop.lat === 0){
+							new google.maps.event.trigger( markerItem, 'click' );
+						}
+					});
 					markerItem.setMap(this.map);
 				}
 			},
@@ -140,6 +172,7 @@
 		},
 		mounted(){
 			this.googleMapInit();
+			console.log(this.markerIcons);
 			this.addMarkers();
 		}
 	}
@@ -153,6 +186,9 @@
 		width: 100%;
 		position: absolute;
 		z-index: 10;
+	}
+	#infowindowTemplate{
+		display: none;
 	}
 	.gm-iv-container{
 		position: fixed;

@@ -59,6 +59,17 @@
             z-index: 2;
             box-shadow: 10px 0 30px rgba(120, 120, 150, 0.3);
         }
+
+        .infoWindow{
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border-style: solid;
+            border-width: 1px 1px 1px 10px;
+            border-color: #4CAF50;
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -67,6 +78,7 @@
 	    <div  class="google_map">
 		    <google_map :center="data.map.center"
                         :marker_icons="data.map.marker_icons"
+                        {{--:info_window_prop="data.map.info_window_prop"--}}
                         :add_markers="data.map.add_markers"
                         :remove_markers="data.map.remove_markers"></google_map>
 			<map_ctrl_panel :controllers="data.ctrlPanel.ctrls" style="top: 150px; right: 10px;"></map_ctrl_panel>
