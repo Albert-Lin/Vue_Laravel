@@ -15,12 +15,29 @@
 		components:{
 			infowindow: require('./infoWindow/table_1.vue'),
 		},
-		props:['center', 'controllers', 'marker_icons', 'add_markers', 'remove_markers'],
+		props:['center', 'controllers', 'marker_icons', 'cluster', 'add_markers', 'remove_markers'],
 		data(){
 			return {
+				// a google.maps.Map object
 				map: undefined,
+				
+				// a list of google.maps.Marker objects:
+				// [ Marker, Marker, ... ]
 				markerList: [],
+				
+				// a list of cluster, each cluster: a list of google.maps.Marker objects:
+				// [ 'cluster_name'=>[ Marker, Marker, ... ], ... ]
+				clusters: [],
+				
+				// a list of MarkerClusterer:
+				// [ 'cluster_name'=>MarkerClusterer, 'cluster_name'=>MarkerClusterer, ... ]
+				markerClusterList: [],
+				
+				// a list of google.maps.InfoWindow:
+				// [ InfoWindow, InfoWindow, ... ]
 				windowList: [],
+				
+				// properties of table_1.vue
 				info_window_prop: undefined,
 			};
 		},
@@ -54,18 +71,35 @@
 				result.rotateControlOptions = (result.rotateControlOptions)? result.rotateControlOptions : { position: google.maps.ControlPosition.RIGHT_BOTTOM };
 				return result;
 			},
+			markerIcons: function(){
+				return (this.marker_icons)? this.marker_icons : [];
+			},
 			add_marker: function(){
 				return (this.add_markers)? this.add_markers : [];
 			},
 			remove_marker: function(){
 				return (this.remove_markers)? this.remove_markers : [];
 			},
-			markerIcons: function(){
-				return (this.marker_icons)? this.marker_icons : [];
+			marker_cluster: function(){
+				if(this.cluster === true){
+					return {
+						action: 'add',
+						clusterName: -1, // 'default' & undefined are for default cluster
+					};
+				}
+				else if(this.cluster == false){
+					return {
+						action: 'remove',
+						clusterName: -1,
+					};
+				}
+				else if(this.cluster instanceof Object){
+					return this.cluster;
+				}
 			},
 			infoWindowProp: function(){
 				return (this.info_window_prop)? this.info_window_prop : {position:{lat: 0, lng: 0}, label:'LABEL', title:'標題'};
-			}
+			},
 		},
 		watch:{
 			'center.lat'(newLat){
@@ -83,9 +117,40 @@
 			},
 			remove_marker: function(value){
 				this.removeMarkers();
+			},
+			marker_cluster: function(value){
+				if(value.action === 'add'){
+					if(value.clusterName === -1){ // add all
+						this.addMarkerClusters();
+					}
+					else if(value.clusterName === undefined){
+						this.addMarkerCluster('default');
+					}
+					else if(Array.isArray(value.clusterName)){
+						this.addMarkerClusters(value.clusterName);
+					}
+					else{
+						this.addMarkerCluster(value.clusterName);
+					}
+				}
+				else{
+					if(value.clusterName === -1){
+						this.removeMarkerClusters();
+					}
+					else if(value.clusterName === undefined){
+						this.removeMarkerCluster('default');
+					}
+					else if(Array.isArray(value.clusterName)){
+						this.removeMarkerClusters(value.clusterName)
+					}
+					else{
+						this.removeMarkerCluster(value.clusterName);
+					}
+				}
 			}
 		},
 		methods:{
+			// MAp
 			googleMapInit: function(){
 				this.map = new google.maps.Map(document.getElementById('map'), {
 					center: {lat: this.mapCenter.lat, lng: this.mapCenter.lng},
@@ -106,55 +171,80 @@
 					},
 				})
 			},
+			
+			// Marker
+			addMarkerPreProcess: function(marker){
+				marker.id = this.markerList.length;
+				marker.zIndex = this.markerList.length;
+				marker.icon = (marker.icon !== undefined && !(marker.icon instanceof Object))? this.markerIcons[marker.icon]: marker.icon;
+				marker.clusterName = (marker.clusterName !== undefined)? marker.clusterName : 'default';
+				marker.clusterImage = (marker.clusterImage)? marker.clusterImage : 'http://vue.semanticlab.com/img/default.png';
+				return marker;
+			},
+			addMarker: function(marker){
+				// This:
+				let current = this;
+				
+				// Map:
+				let map = this.map;
+				
+				// Marker:
+				let markerItem = new google.maps.Marker(marker);
+				
+				// InfoWindow:
+				let infowindowTemplate = document.getElementById('infowindowTemplate');
+				let style = window.getComputedStyle(infowindowTemplate.children[0]);
+				let minWidth = parseInt(style.minWidth.replace(/px/gi, ''))+2+'px';
+				let height = '499px';
+				let windowItem = new google.maps.InfoWindow({
+					content: '<div id="info_window_'+marker.id+'"  style="min-width:'+minWidth+'; height:'+height+';"><div></div></div>',
+					maxWidth: 600
+				});
+				this.windowList[marker.id] = windowItem;
+				
+				// Event:
+				markerItem.addListener('click', function(){
+					current.info_window_prop = marker;
+					setTimeout(function(){
+						windowItem.open(map, markerItem);
+						setTimeout(function(){
+							let style = window.getComputedStyle(infowindowTemplate.children[0]);
+							document.getElementById('info_window_'+marker.id).style.height = style.height;
+							document.getElementById('info_window_'+marker.id).innerHTML = '';
+							document.getElementById('info_window_'+marker.id).innerHTML = infowindowTemplate.innerHTML;
+						}, 50);
+					}, 200);
+					
+				});
+				
+				// List && Cluster:
+				if(this.clusters[marker.clusterName] === undefined){
+					this.clusters[marker.clusterName] = [];
+				}
+				if(this.markerClusterList[marker.clusterName] === undefined){
+					this.addMarkerCluster(marker.clusterName);
+				}
+				this.markerList[marker.id] = markerItem;
+				this.clusters[marker.clusterName].push(markerItem);
+				this.markerClusterList[marker.clusterName].addMarkers([markerItem]);
+				
+				// Map:
+				markerItem.setMap(this.map);
+			},
 			addMarkers: function(){
 				if(this.add_marker !== undefined && this.add_marker.length > 0){
 					for(let i = 0; i < this.add_marker.length; i++){
-						if(this.add_marker[i].icon !== undefined && !(this.add_marker[i].icon instanceof Object)){
-							this.add_marker[i].icon = this.markerIcons[this.add_marker[i].icon];
-						}
+						this.add_marker[i] = this.addMarkerPreProcess(this.add_marker[i]);
 						this.addMarker(this.add_marker[i]);
 					}
 				}
-				
 				this.add_marker = [];
 			},
-			addMarker: function(marker){
-				let add = true;
-				if(this.markerList[marker.id] !== undefined){
-					if(confirm("Marker exist, do you want to replace it?") === false){
-						add = false;
-					}
-					else{
-						this.removeMarker(marker.id);
-					}
-				}
-				
-				if(add === true){
-					let current = this;
-					let map = this.map;
-					let infowindowTemplate = document.getElementById('infowindowTemplate');
-					let style = window.getComputedStyle(infowindowTemplate.children[0]);
-					let width = parseInt(style.width.replace(/px/gi, ''))+2+'px';
-					let height = parseInt(style.height.replace(/px/gi, ''))+9+'px';
-					let markerItem = new google.maps.Marker(marker);
-					let windowItem = new google.maps.InfoWindow({
-						content: '<div id="info_window_'+marker.id+'"  style="min-width:'+width+'; min-height:'+height+';"><div></div></div>',
-						maxWidth: 600
-					});
-
-					this.windowList[marker.id] = windowItem;
-					this.markerList[marker.id] = markerItem;
-
-					markerItem.addListener('click', function(){
-						current.info_window_prop = marker.markerData;
-						setTimeout(function(){
-							windowItem.open(map, markerItem);
-						}, 200);
-						setTimeout(function(){
-							document.getElementById('info_window_'+marker.id).innerHTML = infowindowTemplate.innerHTML;
-						}, 250);
-					});
-					markerItem.setMap(this.map);
+			removeMarker: function(index){
+				let marker = this.markerList[index];
+				if(marker !== undefined){
+					marker.setMap(null);
+					this.markerList[index] = undefined;
 				}
 			},
 			removeMarkers: function(){
@@ -166,16 +256,87 @@
 				
 				this.remove_marker = [];
 			},
-			removeMarker: function(index){
-				let marker = this.markerList[index];
-				if(marker !== undefined){
-					marker.setMap(null);
-					this.markerList[index] = undefined;
+			
+			
+			// MarkerCluster
+			markerClusterPlugin: function(){
+				MarkerClusterer.prototype.checkImagePath = function(){
+					let axios = require('axios');
+					return axios.get(this.imagePath_)
+						.then(function(response){ return true; })
+						.catch(function(error){ return false });
+				};
+				
+				// 使用 webpack 轉檔時，先把 async、await去掉
+				// 轉完後至產生的檔案中，相對應位置加上 async & await
+				MarkerClusterer.prototype.setupStyles_ = async function() {
+					if (this.styles_.length) {
+						return;
+					}
+					
+					let checkResult = await this.checkImagePath();
+					let imagePath = (checkResult)? this.imagePath_ : 'http://vue.semanticlab.com/img/default.png';
+					
+					for (let i = 0, size; size = this.sizes[i]; i++) {
+						this.styles_.push({
+//							url: this.imagePath_,
+							url: imagePath,
+							height: size,
+							width: size
+						});
+					}
+				};
+			},
+			createMarkerCluster: function(clusterName){
+				return new MarkerClusterer(
+					this.map,
+					this.clusters[clusterName],
+					{imagePath: 'http://vue.semanticlab.com/img/'+clusterName+'.png'}
+				);
+			},
+			addMarkerCluster: function(clusterName){
+				if(this.markerClusterList[clusterName] !== undefined){
+					this.removeMarkerCluster(clusterName);
+				}
+				this.markerClusterList[clusterName] = new this.createMarkerCluster(clusterName);
+			},
+			addMarkerClusters: function(clusterNames=undefined){
+				if(Array.isArray(clusterNames)){
+					for(let i = 0; i < clusterNames.length; i++){
+						this.addMarkerCluster(clusterNames[i]);
+					}
+				}
+				else{
+					for(let clusterName in this.clusters){
+						this.addMarkerCluster(clusterName);
+					}
 				}
 			},
+			removeMarkerCluster: function(clusterName){
+				this.markerClusterList[clusterName].clearMarkers();
+				this.markerClusterList[clusterName] = undefined;
+				for(let i = 0; i < this.clusters[clusterName].length; i++){
+					this.clusters[clusterName][i].setMap(this.map);
+				}
+			},
+			removeMarkerClusters: function(clusterNames=undefined){
+				if(Array.isArray(clusterNames)){
+					for(let i = 0; i < clusterNames.length; i++){
+						this.removeMarkerCluster(clusterNames[i]);
+					}
+				}
+				else{
+					for(let clusterName in this.markerClusterList){
+						this.removeMarkerCluster(clusterName);
+					}
+				}
+			}
+			
+			
 		},
 		mounted(){
 			this.googleMapInit();
+			this.markerClusterPlugin();
 			this.addMarkers();
 		}
 	}

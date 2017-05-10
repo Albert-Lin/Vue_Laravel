@@ -12,6 +12,8 @@
     <meta charset="UTF-8">
     <title>Google Map</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {{--for marker cluster--}}
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXraHQiIx099EwYlhMlLmvfnHgFqVFAGg"> </script>
     <style>
 
@@ -78,7 +80,7 @@
 	    <div  class="google_map">
 		    <google_map :center="data.map.center"
                         :marker_icons="data.map.marker_icons"
-                        {{--:info_window_prop="data.map.info_window_prop"--}}
+                        :cluster="data.map.cluster"
                         :add_markers="data.map.add_markers"
                         :remove_markers="data.map.remove_markers"></google_map>
 			<map_ctrl_panel :controllers="data.ctrlPanel.ctrls" style="top: 150px; right: 10px;"></map_ctrl_panel>

@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 
 /*global toString:true*/
 
@@ -731,10 +731,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -811,6 +811,12 @@ module.exports = defaults;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(14);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -819,7 +825,7 @@ var settle = __webpack_require__(20);
 var buildURL = __webpack_require__(23);
 var parseHeaders = __webpack_require__(29);
 var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
 
 module.exports = function xhrAdapter(config) {
@@ -992,7 +998,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1018,7 +1024,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1030,7 +1036,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1054,7 +1060,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1072,7 +1078,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1089,7 +1095,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\infoWindow\\table_1.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\infoWindow\\table_1.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] table_1.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1110,7 +1116,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1137,7 +1143,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1157,8 +1163,8 @@ var googleMap = __webpack_require__(36).default;
 				lng: 120.7304326
 			},
 			marker_icons: [googleMap.markerIcon('http://vue.semanticlab.com/img/nodejs.png'), googleMap.markerIcon('http://vue.semanticlab.com/img/vue.png'), googleMap.markerIcon('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-256.png')],
-			// info_window_prop:{position:{lat: 0, lng: 0}, label:'LABEL', title:'標題'},
-			add_markers: [googleMap.marker({ position: { lat: 25.0274747, lng: 121.5218001 }, label: '古亭', title: 'FIRST' }, 0, [25.0274747, 121.5218001], 0, googleMap.markerLabel('古亭', '#44ff44', 'fantasy,微軟正黑體'), undefined, 'FIRST', 0), googleMap.marker({ position: { lat: 24.2526852, lng: 120.7302684 }, label: '文化中心', title: 'SEC' }, 1, [24.2526852, 120.7302684], 1, googleMap.markerLabel('文化中心', '#446666', 'fantasy,微軟正黑體'), undefined, 'SEC', 1), googleMap.marker({ position: { lat: 24.2521503, lng: 120.7292076 }, label: 'I don\'t know', title: 'THIRD' }, 2, [24.2521503, 120.7292076], 1, googleMap.markerLabel('I don\'t know', '#446666', 'fantasy,微軟正黑體'), undefined, 'THIRD', 2), googleMap.marker({ position: { lat: 24.2526852, lng: 120.7302684 }, label: '文化中心 2', title: 'SEC 2' }, 3, [24.2526852, 120.7302684], 2, googleMap.markerLabel('文化中心 2', '#ff4444', 'fantasy,微軟正黑體'), undefined, 'SEC 2', 3)],
+			cluster: true,
+			add_markers: [googleMap.marker({ position: [25.0274747, 121.5218001], icon: 0, label: '古亭', title: 'FIRST' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A' }), googleMap.marker({ position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2', description: '臺中市葫蘆墩文化中心（全銜為臺中市政府文化局葫蘆墩文化中心）是位於臺灣臺中市豐原區的公立藝文場所。其前身為「臺中縣立文化中心」，西元2000年(民國99年)12月25日臺中縣市合併，台中市升格為直轄市，依據「葫蘆墩」為豐原的舊地名，是以將台中縣立文化中心更名為「葫蘆墩文化中心」，直屬臺中市政府文化局所轄，為大臺中地區山線最重要的文化機構。<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG/330px-%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG">', clusterName: 'A' })],
 			remove_markers: []
 		},
 		ctrlPanel: {
@@ -1221,7 +1227,7 @@ function init() {
 			google_map: __webpack_require__(47),
 			map_ctrl_panel: __webpack_require__(46),
 			fun_bar: __webpack_require__(45),
-			infowindow: __webpack_require__(10)
+			infowindow: __webpack_require__(11)
 		},
 		data: {
 			data: window.data,
@@ -1252,12 +1258,6 @@ function init() {
 }
 
 /***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(14);
-
-/***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1265,7 +1265,7 @@ module.exports = __webpack_require__(14);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 var Axios = __webpack_require__(16);
 var defaults = __webpack_require__(4);
 
@@ -1300,9 +1300,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(6);
+axios.Cancel = __webpack_require__(7);
 axios.CancelToken = __webpack_require__(15);
-axios.isCancel = __webpack_require__(7);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1323,7 +1323,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(6);
+var Cancel = __webpack_require__(7);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1540,7 +1540,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(21);
-var isCancel = __webpack_require__(7);
+var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(4);
 
 /**
@@ -1650,7 +1650,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -2211,14 +2211,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	components: {
-		infowindow: __webpack_require__(10)
+		infowindow: __webpack_require__(11)
 	},
-	props: ['center', 'controllers', 'marker_icons', 'add_markers', 'remove_markers'],
+	props: ['center', 'controllers', 'marker_icons', 'cluster', 'add_markers', 'remove_markers'],
 	data: function data() {
 		return {
+			// a google.maps.Map object
 			map: undefined,
+
+			// a list of google.maps.Marker objects:
+			// [ Marker, Marker, ... ]
 			markerList: [],
+
+			// a list of cluster, each cluster: a list of google.maps.Marker objects:
+			// [ 'cluster_name'=>[ Marker, Marker, ... ], ... ]
+			clusters: [],
+
+			// a list of MarkerClusterer:
+			// [ 'cluster_name'=>MarkerClusterer, 'cluster_name'=>MarkerClusterer, ... ]
+			markerClusterList: [],
+
+			// a list of google.maps.InfoWindow:
+			// [ InfoWindow, InfoWindow, ... ]
 			windowList: [],
+
+			// properties of table_1.vue
 			info_window_prop: undefined
 		};
 	},
@@ -2253,14 +2270,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			result.rotateControlOptions = result.rotateControlOptions ? result.rotateControlOptions : { position: google.maps.ControlPosition.RIGHT_BOTTOM };
 			return result;
 		},
+		markerIcons: function markerIcons() {
+			return this.marker_icons ? this.marker_icons : [];
+		},
 		add_marker: function add_marker() {
 			return this.add_markers ? this.add_markers : [];
 		},
 		remove_marker: function remove_marker() {
 			return this.remove_markers ? this.remove_markers : [];
 		},
-		markerIcons: function markerIcons() {
-			return this.marker_icons ? this.marker_icons : [];
+		marker_cluster: function marker_cluster() {
+			if (this.cluster === true) {
+				return {
+					action: 'add',
+					clusterName: -1 };
+			} else if (this.cluster == false) {
+				return {
+					action: 'remove',
+					clusterName: -1
+				};
+			} else if (this.cluster instanceof Object) {
+				return this.cluster;
+			}
 		},
 		infoWindowProp: function infoWindowProp() {
 			return this.info_window_prop ? this.info_window_prop : { position: { lat: 0, lng: 0 }, label: 'LABEL', title: '標題' };
@@ -2283,9 +2314,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		remove_marker: function remove_marker(value) {
 			this.removeMarkers();
+		},
+		marker_cluster: function marker_cluster(value) {
+			if (value.action === 'add') {
+				if (value.clusterName === -1) {
+					// add all
+					this.addMarkerClusters();
+				} else if (value.clusterName === undefined) {
+					this.addMarkerCluster('default');
+				} else if (Array.isArray(value.clusterName)) {
+					this.addMarkerClusters(value.clusterName);
+				} else {
+					this.addMarkerCluster(value.clusterName);
+				}
+			} else {
+				if (value.clusterName === -1) {
+					this.removeMarkerClusters();
+				} else if (value.clusterName === undefined) {
+					this.removeMarkerCluster('default');
+				} else if (Array.isArray(value.clusterName)) {
+					this.removeMarkerClusters(value.clusterName);
+				} else {
+					this.removeMarkerCluster(value.clusterName);
+				}
+			}
 		}
 	},
 	methods: {
+		// MAp
 		googleMapInit: function googleMapInit() {
 			this.map = new google.maps.Map(document.getElementById('map'), {
 				center: { lat: this.mapCenter.lat, lng: this.mapCenter.lng },
@@ -2306,54 +2362,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}
 			});
 		},
+
+		// Marker
+		addMarkerPreProcess: function addMarkerPreProcess(marker) {
+			marker.id = this.markerList.length;
+			marker.zIndex = this.markerList.length;
+			marker.icon = marker.icon !== undefined && !(marker.icon instanceof Object) ? this.markerIcons[marker.icon] : marker.icon;
+			marker.clusterName = marker.clusterName !== undefined ? marker.clusterName : 'default';
+			marker.clusterImage = marker.clusterImage ? marker.clusterImage : 'http://vue.semanticlab.com/img/default.png';
+			return marker;
+		},
+		addMarker: function addMarker(marker) {
+			// This:
+			var current = this;
+
+			// Map:
+			var map = this.map;
+
+			// Marker:
+			var markerItem = new google.maps.Marker(marker);
+
+			// InfoWindow:
+			var infowindowTemplate = document.getElementById('infowindowTemplate');
+			var style = window.getComputedStyle(infowindowTemplate.children[0]);
+			var minWidth = parseInt(style.minWidth.replace(/px/gi, '')) + 2 + 'px';
+			var height = '499px';
+			var windowItem = new google.maps.InfoWindow({
+				content: '<div id="info_window_' + marker.id + '"  style="min-width:' + minWidth + '; height:' + height + ';"><div></div></div>',
+				maxWidth: 600
+			});
+			this.windowList[marker.id] = windowItem;
+
+			// Event:
+			markerItem.addListener('click', function () {
+				current.info_window_prop = marker;
+				setTimeout(function () {
+					windowItem.open(map, markerItem);
+					setTimeout(function () {
+						var style = window.getComputedStyle(infowindowTemplate.children[0]);
+						document.getElementById('info_window_' + marker.id).style.height = style.height;
+						document.getElementById('info_window_' + marker.id).innerHTML = '';
+						document.getElementById('info_window_' + marker.id).innerHTML = infowindowTemplate.innerHTML;
+					}, 50);
+				}, 200);
+			});
+
+			// List && Cluster:
+			if (this.clusters[marker.clusterName] === undefined) {
+				this.clusters[marker.clusterName] = [];
+			}
+			if (this.markerClusterList[marker.clusterName] === undefined) {
+				this.addMarkerCluster(marker.clusterName);
+			}
+			this.markerList[marker.id] = markerItem;
+			this.clusters[marker.clusterName].push(markerItem);
+			this.markerClusterList[marker.clusterName].addMarkers([markerItem]);
+
+			// Map:
+			markerItem.setMap(this.map);
+		},
 		addMarkers: function addMarkers() {
 			if (this.add_marker !== undefined && this.add_marker.length > 0) {
 				for (var i = 0; i < this.add_marker.length; i++) {
-					if (this.add_marker[i].icon !== undefined && !(this.add_marker[i].icon instanceof Object)) {
-						this.add_marker[i].icon = this.markerIcons[this.add_marker[i].icon];
-					}
+					this.add_marker[i] = this.addMarkerPreProcess(this.add_marker[i]);
 					this.addMarker(this.add_marker[i]);
 				}
 			}
-
 			this.add_marker = [];
 		},
-		addMarker: function addMarker(marker) {
-			var add = true;
-			if (this.markerList[marker.id] !== undefined) {
-				if (confirm("Marker exist, do you want to replace it?") === false) {
-					add = false;
-				} else {
-					this.removeMarker(marker.id);
-				}
-			}
-
-			if (add === true) {
-				var current = this;
-				var map = this.map;
-				var infowindowTemplate = document.getElementById('infowindowTemplate');
-				var style = window.getComputedStyle(infowindowTemplate.children[0]);
-				var width = parseInt(style.width.replace(/px/gi, '')) + 2 + 'px';
-				var height = parseInt(style.height.replace(/px/gi, '')) + 9 + 'px';
-				var markerItem = new google.maps.Marker(marker);
-				var windowItem = new google.maps.InfoWindow({
-					content: '<div id="info_window_' + marker.id + '"  style="min-width:' + width + '; min-height:' + height + ';"><div></div></div>',
-					maxWidth: 600
-				});
-
-				this.windowList[marker.id] = windowItem;
-				this.markerList[marker.id] = markerItem;
-
-				markerItem.addListener('click', function () {
-					current.info_window_prop = marker.markerData;
-					setTimeout(function () {
-						windowItem.open(map, markerItem);
-					}, 200);
-					setTimeout(function () {
-						document.getElementById('info_window_' + marker.id).innerHTML = infowindowTemplate.innerHTML;
-					}, 250);
-				});
-				markerItem.setMap(this.map);
+		removeMarker: function removeMarker(index) {
+			var marker = this.markerList[index];
+			if (marker !== undefined) {
+				marker.setMap(null);
+				this.markerList[index] = undefined;
 			}
 		},
 		removeMarkers: function removeMarkers() {
@@ -2365,16 +2446,83 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.remove_marker = [];
 		},
-		removeMarker: function removeMarker(index) {
-			var marker = this.markerList[index];
-			if (marker !== undefined) {
-				marker.setMap(null);
-				this.markerList[index] = undefined;
+
+		// MarkerCluster
+		markerClusterPlugin: function markerClusterPlugin() {
+			MarkerClusterer.prototype.checkImagePath = function () {
+				var axios = __webpack_require__(5);
+				return axios.get(this.imagePath_).then(function (response) {
+					return true;
+				}).catch(function (error) {
+					return false;
+				});
+			};
+
+			MarkerClusterer.prototype.setupStyles_ = async function () {
+				if (this.styles_.length) {
+					return;
+				}
+
+				var checkResult = await this.checkImagePath();
+				var imagePath = checkResult ? this.imagePath_ : 'http://vue.semanticlab.com/img/default.png';
+
+				for (var i = 0, size; size = this.sizes[i]; i++) {
+					this.styles_.push({
+						//							url: this.imagePath_,
+						url: imagePath,
+						height: size,
+						width: size
+					});
+				}
+			};
+		},
+		createMarkerCluster: function createMarkerCluster(clusterName) {
+			return new MarkerClusterer(this.map, this.clusters[clusterName], { imagePath: 'http://vue.semanticlab.com/img/' + clusterName + '.png' });
+		},
+		addMarkerCluster: function addMarkerCluster(clusterName) {
+			if (this.markerClusterList[clusterName] !== undefined) {
+				this.removeMarkerCluster(clusterName);
+			}
+			this.markerClusterList[clusterName] = new this.createMarkerCluster(clusterName);
+		},
+		addMarkerClusters: function addMarkerClusters() {
+			var clusterNames = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+
+			if (Array.isArray(clusterNames)) {
+				for (var i = 0; i < clusterNames.length; i++) {
+					this.addMarkerCluster(clusterNames[i]);
+				}
+			} else {
+				for (var clusterName in this.clusters) {
+					this.addMarkerCluster(clusterName);
+				}
+			}
+		},
+		removeMarkerCluster: function removeMarkerCluster(clusterName) {
+			this.markerClusterList[clusterName].clearMarkers();
+			this.markerClusterList[clusterName] = undefined;
+			for (var i = 0; i < this.clusters[clusterName].length; i++) {
+				this.clusters[clusterName][i].setMap(this.map);
+			}
+		},
+		removeMarkerClusters: function removeMarkerClusters() {
+			var clusterNames = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+
+			if (Array.isArray(clusterNames)) {
+				for (var i = 0; i < clusterNames.length; i++) {
+					this.removeMarkerCluster(clusterNames[i]);
+				}
+			} else {
+				for (var clusterName in this.markerClusterList) {
+					this.removeMarkerCluster(clusterName);
+				}
 			}
 		}
+
 	},
 	mounted: function mounted() {
 		this.googleMapInit();
+		this.markerClusterPlugin();
 		this.addMarkers();
 	}
 });
@@ -2385,6 +2533,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -2437,7 +2587,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(13);
+window.axios = __webpack_require__(5);
 
 // window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -2500,67 +2650,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 
-	/**
-  *
-  * @param color
-  * @param fontFamily
-  * @param fontSize
-  * @param fontWeight
-  * @param text
-  * @returns {{color: undefined, fontFamily: undefined, fontSize: undefined, fontWeight: undefined, text: undefined}}
-  */
-	markerLabel: function markerLabel() {
-		var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-		var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-		var fontFamily = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-		var fontSize = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
-		var fontWeight = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : undefined;
-
-		return {
-			color: color ? color : undefined,
-			fontFamily: fontFamily ? fontFamily : undefined,
-			fontSize: fontSize ? fontSize : undefined,
-			fontWeight: fontWeight ? fontWeight : undefined,
-			text: text ? text : undefined
-		};
-	},
-
-	//https://developers.google.com/maps/documentation/javascript/reference#Marker
-	/**
-  *
-  * @param markerData
-  * @param id
-  * @param position
-  * @param icon
-  * @param label
-  * @param shape
-  * @param title
-  * @param zIndex
-  * @returns {{id: undefined, position: *, icon: undefined, label: undefined, shape: undefined, title: undefined, zIndex: undefined}}
-  */
-	marker: function marker() {
-		var markerData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-		var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-		var position = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-		var icon = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
-		var label = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : undefined;
-		var shape = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : undefined;
-		var title = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : undefined;
-		var zIndex = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : undefined;
-
-		return {
-			markerData: markerData ? markerData : {},
-			id: id ? id : undefined,
-			position: position ? { lat: position[0], lng: position[1] } : undefined,
-			icon: icon !== undefined ? icon : undefined,
-			label: label ? label : undefined,
-			shape: shape ? shape : undefined,
-			title: title ? title : undefined,
-			zIndex: zIndex ? zIndex : undefined,
-			infowindow: {
-				content: ''
-			}
-		};
+	marker: function marker(optional) {
+		optional.position = Array.isArray(optional.position) ? { lat: optional.position[0], lng: optional.position[1] } : optional.position;
+		optional.label = typeof optional.label === "string" ? { text: optional.label } : optional.label;
+		return optional;
 	}
 
 });
@@ -4974,7 +5067,7 @@ exports.push([module.i, "\n.fun-btn{\n\tpadding: 0;\n\tborder: 0;\n\tmargin: 0;\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n.infoWindow_1{\n\twidth: 300px; /*建議要給，畫面比較順*/\n\theight: 200px; /*建議要給，畫面比較順*/\n\tpadding: 10px;\n\tborder-style: solid;\n\tborder-width: 1px 1px 1px 10px;\n\tborder-color: #4CAF50;\n\tmargin: 0;\n}\n", ""]);
+exports.push([module.i, "\n.infoWindow_1{\n\tmin-width: 300px; /*建議要給，畫面比較順*/\n\tpadding: 10px;\n\tborder-style: solid;\n\tborder-width: 1px 1px 1px 10px;\n\tborder-color: #4CAF50;\n\tmargin: 0;\n}\n", ""]);
 
 /***/ }),
 /* 42 */
@@ -32326,7 +32419,7 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(58)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(58)(module)))
 
 /***/ }),
 /* 44 */
@@ -32536,7 +32629,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FunctionBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32574,7 +32667,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ControllerPanel.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32612,7 +32705,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
+Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] googleMap.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32727,7 +32820,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "infoWindow_1"
   }, [_c('table', {
     staticClass: "table table-striped"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("POSITION")]), _c('td', [_vm._v(_vm._s(_vm.prop.position.lat + ' ' + _vm.prop.position.lng))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("LABEL")]), _c('td', [_vm._v(_vm._s(_vm.prop.label))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("TITLE")]), _c('td', [_vm._v(_vm._s(_vm.prop.title))])])])])])
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("POSITION")]), _c('td', [_vm._v(_vm._s(_vm.prop.position.lat + ' ' + _vm.prop.position.lng))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("LABEL")]), _c('td', [_vm._v(_vm._s(_vm.prop.label.text))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("TITLE")]), _c('td', [_vm._v(_vm._s(_vm.prop.title))])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("CLUSTER")]), _c('td', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.prop.clusterName)
+    }
+  })]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("DESCRIPTION")]), _c('td', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.prop.description)
+    }
+  })])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("KEY")]), _c('th', [_vm._v("VALUE")])])])
 }]}
@@ -32882,7 +32983,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.3.1
+ * Vue.js v2.3.3
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -32904,6 +33005,9 @@ function isTrue (v) {
   return v === true
 }
 
+function isFalse (v) {
+  return v === false
+}
 /**
  * Check if value is primitive
  */
@@ -34299,7 +34403,8 @@ function getPropDefaultValue (vm, prop, key) {
   // return previous default value to avoid unnecessary watcher trigger
   if (vm && vm.$options.propsData &&
     vm.$options.propsData[key] === undefined &&
-    vm._props[key] !== undefined) {
+    vm._props[key] !== undefined
+  ) {
     return vm._props[key]
   }
   // call factory function for non-Function types
@@ -34573,6 +34678,7 @@ function cloneVNode (vnode) {
   cloned.ns = vnode.ns;
   cloned.isStatic = vnode.isStatic;
   cloned.key = vnode.key;
+  cloned.isComment = vnode.isComment;
   cloned.isCloned = true;
   return cloned
 }
@@ -34791,6 +34897,10 @@ function normalizeChildren (children) {
       : undefined
 }
 
+function isTextNode (node) {
+  return isDef(node) && isDef(node.text) && isFalse(node.isComment)
+}
+
 function normalizeArrayChildren (children, nestedIndex) {
   var res = [];
   var i, c, last;
@@ -34802,18 +34912,25 @@ function normalizeArrayChildren (children, nestedIndex) {
     if (Array.isArray(c)) {
       res.push.apply(res, normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i)));
     } else if (isPrimitive(c)) {
-      if (isDef(last) && isDef(last.text)) {
-        last.text += String(c);
+      if (isTextNode(last)) {
+        // merge adjacent text nodes
+        // this is necessary for SSR hydration because text nodes are
+        // essentially merged when rendered to HTML strings
+        (last).text += String(c);
       } else if (c !== '') {
         // convert primitive to vnode
         res.push(createTextVNode(c));
       }
     } else {
-      if (isDef(c.text) && isDef(last) && isDef(last.text)) {
+      if (isTextNode(c) && isTextNode(last)) {
+        // merge adjacent text nodes
         res[res.length - 1] = createTextVNode(last.text + c.text);
       } else {
         // default key for nested array children (likely generated by v-for)
-        if (isDef(c.tag) && isUndef(c.key) && isDef(nestedIndex)) {
+        if (isTrue(children._isVList) &&
+          isDef(c.tag) &&
+          isUndef(c.key) &&
+          isDef(nestedIndex)) {
           c.key = "__vlist" + nestedIndex + "_" + i + "__";
         }
         res.push(c);
@@ -34913,11 +35030,13 @@ function resolveAsyncComponent (
 
         if (isDef(res.timeout)) {
           setTimeout(function () {
-            reject(
-               true
-                ? ("timeout (" + (res.timeout) + "ms)")
-                : null
-            );
+            if (isUndef(factory.resolved)) {
+              reject(
+                 true
+                  ? ("timeout (" + (res.timeout) + "ms)")
+                  : null
+              );
+            }
           }, res.timeout);
         }
       }
@@ -35096,7 +35215,8 @@ function resolveSlots (
     // named slots should only be respected if the vnode was rendered in the
     // same context.
     if ((child.context === context || child.functionalContext === context) &&
-        child.data && child.data.slot != null) {
+      child.data && child.data.slot != null
+    ) {
       var name = child.data.slot;
       var slot = (slots[name] || (slots[name] = []));
       if (child.tag === 'template') {
@@ -35120,11 +35240,16 @@ function isWhitespace (node) {
 }
 
 function resolveScopedSlots (
-  fns
+  fns, // see flow/vnode
+  res
 ) {
-  var res = {};
+  res = res || {};
   for (var i = 0; i < fns.length; i++) {
-    res[fns[i][0]] = fns[i][1];
+    if (Array.isArray(fns[i])) {
+      resolveScopedSlots(fns[i], res);
+    } else {
+      res[fns[i].key] = fns[i].fn;
+    }
   }
   return res
 }
@@ -35442,7 +35567,7 @@ var index = 0;
  * Reset the scheduler's state.
  */
 function resetSchedulerState () {
-  queue.length = activatedChildren.length = 0;
+  index = queue.length = activatedChildren.length = 0;
   has = {};
   if (true) {
     circular = {};
@@ -35552,10 +35677,10 @@ function queueWatcher (watcher) {
       // if already flushing, splice the watcher based on its id
       // if already past its id, it will be run next immediately.
       var i = queue.length - 1;
-      while (i >= 0 && queue[i].id > watcher.id) {
+      while (i > index && queue[i].id > watcher.id) {
         i--;
       }
-      queue.splice(Math.max(i, index) + 1, 0, watcher);
+      queue.splice(i + 1, 0, watcher);
     }
     // queue the flush
     if (!waiting) {
@@ -36185,6 +36310,7 @@ function createFunctionalComponent (
   });
   if (vnode instanceof VNode) {
     vnode.functionalContext = context;
+    vnode.functionalOptions = Ctor.options;
     if (data.slot) {
       (vnode.data || (vnode.data = {})).slot = data.slot;
     }
@@ -36457,7 +36583,8 @@ function _createElement (
   }
   // support single function children as default scoped slot
   if (Array.isArray(children) &&
-      typeof children[0] === 'function') {
+    typeof children[0] === 'function'
+  ) {
     data = data || {};
     data.scopedSlots = { default: children[0] };
     children.length = 0;
@@ -36544,6 +36671,9 @@ function renderList (
       key = keys[i];
       ret[i] = render(val[key], key, i);
     }
+  }
+  if (isDef(ret)) {
+    (ret)._isVList = true;
   }
   return ret
 }
@@ -36944,7 +37074,8 @@ function dedupe (latest, extended, sealed) {
 
 function Vue$3 (options) {
   if ("development" !== 'production' &&
-    !(this instanceof Vue$3)) {
+    !(this instanceof Vue$3)
+  ) {
     warn('Vue is a constructor and should be called with the `new` keyword');
   }
   this._init(options);
@@ -36962,7 +37093,7 @@ function initUse (Vue) {
   Vue.use = function (plugin) {
     /* istanbul ignore if */
     if (plugin.installed) {
-      return
+      return this
     }
     // additional parameters
     var args = toArray(arguments, 1);
@@ -36982,6 +37113,7 @@ function initUse (Vue) {
 function initMixin$1 (Vue) {
   Vue.mixin = function (mixin) {
     this.options = mergeOptions(this.options, mixin);
+    return this
   };
 }
 
@@ -37273,7 +37405,14 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$3.version = '2.3.1';
+Object.defineProperty(Vue$3.prototype, '$ssrContext', {
+  get: function get () {
+    /* istanbul ignore next */
+    return this.$vnode.ssrContext
+  }
+});
+
+Vue$3.version = '2.3.3';
 
 /*  */
 
@@ -37854,8 +37993,9 @@ function createPatchFunction (backend) {
     }
     // for slot content they should also get the scopeId from the host instance.
     if (isDef(i = activeInstance) &&
-        i !== vnode.context &&
-        isDef(i = i.$options._scopeId)) {
+      i !== vnode.context &&
+      isDef(i = i.$options._scopeId)
+    ) {
       nodeOps.setAttribute(vnode.elm, i, '');
     }
   }
@@ -38007,9 +38147,10 @@ function createPatchFunction (backend) {
     // if the new node is not cloned it means the render functions have been
     // reset by the hot-reload-api and we need to do a proper re-render.
     if (isTrue(vnode.isStatic) &&
-        isTrue(oldVnode.isStatic) &&
-        vnode.key === oldVnode.key &&
-        (isTrue(vnode.isCloned) || isTrue(vnode.isOnce))) {
+      isTrue(oldVnode.isStatic) &&
+      vnode.key === oldVnode.key &&
+      (isTrue(vnode.isCloned) || isTrue(vnode.isOnce))
+    ) {
       vnode.elm = oldVnode.elm;
       vnode.componentInstance = oldVnode.componentInstance;
       return
@@ -38100,8 +38241,9 @@ function createPatchFunction (backend) {
           // longer than the virtual children list.
           if (!childrenMatch || childNode) {
             if ("development" !== 'production' &&
-                typeof console !== 'undefined' &&
-                !bailed) {
+              typeof console !== 'undefined' &&
+              !bailed
+            ) {
               bailed = true;
               console.warn('Parent: ', elm);
               console.warn('Mismatching childNodes vs. VNodes: ', elm.childNodes, children);
@@ -39238,7 +39380,8 @@ function updateStyle (oldVnode, vnode) {
   var oldData = oldVnode.data;
 
   if (isUndef(data.staticStyle) && isUndef(data.style) &&
-      isUndef(oldData.staticStyle) && isUndef(oldData.style)) {
+    isUndef(oldData.staticStyle) && isUndef(oldData.style)
+  ) {
     return
   }
 
@@ -39376,12 +39519,14 @@ var animationEndEvent = 'animationend';
 if (hasTransition) {
   /* istanbul ignore if */
   if (window.ontransitionend === undefined &&
-    window.onwebkittransitionend !== undefined) {
+    window.onwebkittransitionend !== undefined
+  ) {
     transitionProp = 'WebkitTransition';
     transitionEndEvent = 'webkitTransitionEnd';
   }
   if (window.onanimationend === undefined &&
-    window.onwebkitanimationend !== undefined) {
+    window.onwebkitanimationend !== undefined
+  ) {
     animationProp = 'WebkitAnimation';
     animationEndEvent = 'webkitAnimationEnd';
   }
@@ -39621,8 +39766,9 @@ function enter (vnode, toggleDisplay) {
       var parent = el.parentNode;
       var pendingNode = parent && parent._pending && parent._pending[vnode.key];
       if (pendingNode &&
-          pendingNode.tag === vnode.tag &&
-          pendingNode.elm._leaveCb) {
+        pendingNode.tag === vnode.tag &&
+        pendingNode.elm._leaveCb
+      ) {
         pendingNode.elm._leaveCb();
       }
       enterHook && enterHook(el, cb);
@@ -39955,6 +40101,8 @@ function onCompositionStart (e) {
 }
 
 function onCompositionEnd (e) {
+  // prevent triggering an input event for no reason
+  if (!e.target.composing) { return }
   e.target.composing = false;
   trigger(e.target, 'input');
 }
@@ -40137,7 +40285,8 @@ var Transition = {
 
     // warn invalid mode
     if ("development" !== 'production' &&
-        mode && mode !== 'in-out' && mode !== 'out-in') {
+      mode && mode !== 'in-out' && mode !== 'out-in'
+    ) {
       warn(
         'invalid <transition> mode: ' + mode,
         this.$parent
@@ -40421,8 +40570,9 @@ setTimeout(function () {
     }
   }
   if ("development" !== 'production' &&
-      config.productionTip !== false &&
-      inBrowser && typeof console !== 'undefined') {
+    config.productionTip !== false &&
+    inBrowser && typeof console !== 'undefined'
+  ) {
     console[console.info ? 'info' : 'log'](
       "You are running Vue in development mode.\n" +
       "Make sure to turn on production mode when deploying for production.\n" +
@@ -40755,8 +40905,9 @@ function parseHTML (html, options) {
       // Close all the open elements, up the stack
       for (var i = stack.length - 1; i >= pos; i--) {
         if ("development" !== 'production' &&
-            (i > pos || !tagName) &&
-            options.warn) {
+          (i > pos || !tagName) &&
+          options.warn
+        ) {
           options.warn(
             ("tag <" + (stack[i].tag) + "> has no matching end tag.")
           );
@@ -41051,8 +41202,9 @@ function parse (
       // IE textarea placeholder bug
       /* istanbul ignore if */
       if (isIE &&
-          currentParent.tag === 'textarea' &&
-          currentParent.attrsMap.placeholder === text) {
+        currentParent.tag === 'textarea' &&
+        currentParent.attrsMap.placeholder === text
+      ) {
         return
       }
       var children = currentParent.children;
@@ -41556,17 +41708,17 @@ var modifierCode = {
 
 function genHandlers (
   events,
-  native,
+  isNative,
   warn
 ) {
-  var res = native ? 'nativeOn:{' : 'on:{';
+  var res = isNative ? 'nativeOn:{' : 'on:{';
   for (var name in events) {
     var handler = events[name];
     // #5330: warn click.right, since right clicks do not actually fire click events.
     if ("development" !== 'production' &&
-        name === 'click' &&
-        handler && handler.modifiers && handler.modifiers.right
-      ) {
+      name === 'click' &&
+      handler && handler.modifiers && handler.modifiers.right
+    ) {
       warn(
         "Use \"contextmenu\" instead of \"click.right\" since right clicks " +
         "do not actually fire \"click\" events."
@@ -41921,10 +42073,25 @@ function genScopedSlots (slots) {
 }
 
 function genScopedSlot (key, el) {
-  return "[" + key + ",function(" + (String(el.attrsMap.scope)) + "){" +
+  if (el.for && !el.forProcessed) {
+    return genForScopedSlot(key, el)
+  }
+  return "{key:" + key + ",fn:function(" + (String(el.attrsMap.scope)) + "){" +
     "return " + (el.tag === 'template'
       ? genChildren(el) || 'void 0'
-      : genElement(el)) + "}]"
+      : genElement(el)) + "}}"
+}
+
+function genForScopedSlot (key, el) {
+  var exp = el.for;
+  var alias = el.alias;
+  var iterator1 = el.iterator1 ? ("," + (el.iterator1)) : '';
+  var iterator2 = el.iterator2 ? ("," + (el.iterator2)) : '';
+  el.forProcessed = true; // avoid recursion
+  return "_l((" + exp + ")," +
+    "function(" + alias + iterator1 + iterator2 + "){" +
+      "return " + (genScopedSlot(key, el)) +
+    '})'
 }
 
 function genChildren (el, checkSkip) {
@@ -41933,9 +42100,10 @@ function genChildren (el, checkSkip) {
     var el$1 = children[0];
     // optimize single v-for
     if (children.length === 1 &&
-        el$1.for &&
-        el$1.tag !== 'template' &&
-        el$1.tag !== 'slot') {
+      el$1.for &&
+      el$1.tag !== 'template' &&
+      el$1.tag !== 'slot'
+    ) {
       return genElement(el$1)
     }
     var normalizationType = checkSkip ? getNormalizationType(children) : 0;
@@ -42505,7 +42673,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
 /* 58 */
@@ -42539,7 +42707,7 @@ module.exports = function(module) {
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(13);
 
 
 /***/ })

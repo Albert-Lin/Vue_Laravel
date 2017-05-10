@@ -28,53 +28,10 @@ export default {
 		};
 	},
 	
-	/**
-	 *
-	 * @param color
-	 * @param fontFamily
-	 * @param fontSize
-	 * @param fontWeight
-	 * @param text
-	 * @returns {{color: undefined, fontFamily: undefined, fontSize: undefined, fontWeight: undefined, text: undefined}}
-	 */
-	markerLabel: (text=undefined, color=undefined, fontFamily=undefined, fontSize=undefined, fontWeight=undefined)=>{
-		return {
-			color: (color)? color : undefined,
-			fontFamily: (fontFamily)? fontFamily : undefined,
-			fontSize: (fontSize)? fontSize : undefined,
-			fontWeight: (fontWeight)? fontWeight : undefined,
-			text: (text)? text : undefined,
-		};
+	marker: (optional)=>{
+		optional.position = (Array.isArray(optional.position))? {lat: optional.position[0], lng: optional.position[1]} : optional.position;
+		optional.label = (typeof optional.label === "string")? {text: optional.label} : optional.label;
+		return optional;
 	},
-	
-	//https://developers.google.com/maps/documentation/javascript/reference#Marker
-	/**
-	 *
-	 * @param markerData
-	 * @param id
-	 * @param position
-	 * @param icon
-	 * @param label
-	 * @param shape
-	 * @param title
-	 * @param zIndex
-	 * @returns {{id: undefined, position: *, icon: undefined, label: undefined, shape: undefined, title: undefined, zIndex: undefined}}
-	 */
-	marker: (markerData=undefined, id=undefined, position=undefined, icon=undefined, label=undefined, shape=undefined, title=undefined, zIndex=undefined)=>{
-		return {
-			markerData: (markerData)? markerData : {},
-			id: (id)? id : undefined,
-			position: (position)? {lat:position[0], lng:position[1]} : undefined,
-			icon: (icon !== undefined)? icon : undefined,
-			label: (label)? label : undefined,
-			shape: (shape)? shape : undefined,
-			title: (title)? title : undefined,
-			zIndex: (zIndex)? zIndex : undefined,
-			infowindow: {
-				content: '',
-			}
-		}
-	},
-	
 	
 }
