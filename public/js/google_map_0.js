@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(10);
+var bind = __webpack_require__(9);
 
 /*global toString:true*/
 
@@ -731,10 +731,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(6);
+    adapter = __webpack_require__(5);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(6);
+    adapter = __webpack_require__(5);
   }
   return adapter;
 }
@@ -811,12 +811,6 @@ module.exports = defaults;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(14);
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -825,7 +819,7 @@ var settle = __webpack_require__(20);
 var buildURL = __webpack_require__(23);
 var parseHeaders = __webpack_require__(29);
 var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(8);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
 
 module.exports = function xhrAdapter(config) {
@@ -998,7 +992,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1024,7 +1018,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1036,7 +1030,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1060,7 +1054,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1078,7 +1072,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1116,7 +1110,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1143,7 +1137,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1164,7 +1158,9 @@ var googleMap = __webpack_require__(36).default;
 			},
 			marker_icons: [googleMap.markerIcon('http://vue.semanticlab.com/img/nodejs.png'), googleMap.markerIcon('http://vue.semanticlab.com/img/vue.png'), googleMap.markerIcon('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-256.png')],
 			cluster: true,
-			add_markers: [googleMap.marker({ position: [25.0274747, 121.5218001], icon: 0, label: '古亭', title: 'FIRST' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A' }), googleMap.marker({ position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2', description: '臺中市葫蘆墩文化中心（全銜為臺中市政府文化局葫蘆墩文化中心）是位於臺灣臺中市豐原區的公立藝文場所。其前身為「臺中縣立文化中心」，西元2000年(民國99年)12月25日臺中縣市合併，台中市升格為直轄市，依據「葫蘆墩」為豐原的舊地名，是以將台中縣立文化中心更名為「葫蘆墩文化中心」，直屬臺中市政府文化局所轄，為大臺中地區山線最重要的文化機構。<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG/330px-%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG">', clusterName: 'A' })],
+			add_markers: [googleMap.marker({ position: [25.0274747, 121.5218001], icon: 0, label: '古亭', title: 'FIRST' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }), googleMap.marker({ position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
+				description: '臺中市葫蘆墩文化中心（全銜為臺中市政府文化局葫蘆墩文化中心）是位於臺灣臺中市豐原區的公立藝文場所。其前身為「臺中縣立文化中心」，西元2000年(民國99年)12月25日臺中縣市合併，台中市升格為直轄市，依據「葫蘆墩」為豐原的舊地名，是以將台中縣立文化中心更名為「葫蘆墩文化中心」，直屬臺中市政府文化局所轄，為大臺中地區山線最重要的文化機構。<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG/330px-%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG">',
+				clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' })],
 			remove_markers: []
 		},
 		ctrlPanel: {
@@ -1227,7 +1223,7 @@ function init() {
 			google_map: __webpack_require__(47),
 			map_ctrl_panel: __webpack_require__(46),
 			fun_bar: __webpack_require__(45),
-			infowindow: __webpack_require__(11)
+			infowindow: __webpack_require__(10)
 		},
 		data: {
 			data: window.data,
@@ -1258,6 +1254,12 @@ function init() {
 }
 
 /***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(14);
+
+/***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1265,7 +1267,7 @@ function init() {
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(10);
+var bind = __webpack_require__(9);
 var Axios = __webpack_require__(16);
 var defaults = __webpack_require__(4);
 
@@ -1300,9 +1302,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(7);
+axios.Cancel = __webpack_require__(6);
 axios.CancelToken = __webpack_require__(15);
-axios.isCancel = __webpack_require__(8);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1323,7 +1325,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(7);
+var Cancel = __webpack_require__(6);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1540,7 +1542,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(21);
-var isCancel = __webpack_require__(8);
+var isCancel = __webpack_require__(7);
 var defaults = __webpack_require__(4);
 
 /**
@@ -1650,7 +1652,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(8);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -2211,7 +2213,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	components: {
-		infowindow: __webpack_require__(11)
+		infowindow: __webpack_require__(10)
 	},
 	props: ['center', 'controllers', 'marker_icons', 'cluster', 'add_markers', 'remove_markers'],
 	data: function data() {
@@ -2313,7 +2315,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.addMarkers();
 		},
 		remove_marker: function remove_marker(value) {
+			console.log(this.markerList);
 			this.removeMarkers();
+			console.log('done');
 		},
 		marker_cluster: function marker_cluster(value) {
 			if (value.action === 'add') {
@@ -2412,7 +2416,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				this.clusters[marker.clusterName] = [];
 			}
 			if (this.markerClusterList[marker.clusterName] === undefined) {
-				this.addMarkerCluster(marker.clusterName);
+				this.addMarkerCluster(marker.clusterName, marker.clusterImage);
 			}
 			this.markerList[marker.id] = markerItem;
 			this.clusters[marker.clusterName].push(markerItem);
@@ -2449,41 +2453,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		// MarkerCluster
 		markerClusterPlugin: function markerClusterPlugin() {
-			MarkerClusterer.prototype.checkImagePath = function () {
-				var axios = __webpack_require__(5);
-				return axios.get(this.imagePath_).then(function (response) {
-					return true;
-				}).catch(function (error) {
-					return false;
-				});
-			};
-
-			MarkerClusterer.prototype.setupStyles_ = async function () {
+			MarkerClusterer.prototype.setupStyles_ = function () {
 				if (this.styles_.length) {
 					return;
 				}
 
-				var checkResult = await this.checkImagePath();
-				var imagePath = checkResult ? this.imagePath_ : 'http://vue.semanticlab.com/img/default.png';
-
 				for (var i = 0, size; size = this.sizes[i]; i++) {
 					this.styles_.push({
-						//							url: this.imagePath_,
-						url: imagePath,
+						url: this.imagePath_,
 						height: size,
 						width: size
 					});
 				}
 			};
 		},
-		createMarkerCluster: function createMarkerCluster(clusterName) {
-			return new MarkerClusterer(this.map, this.clusters[clusterName], { imagePath: 'http://vue.semanticlab.com/img/' + clusterName + '.png' });
+		createMarkerCluster: function createMarkerCluster(clusterName, clusterImage) {
+			return new MarkerClusterer(this.map, this.clusters[clusterName], { imagePath: clusterImage });
 		},
-		addMarkerCluster: function addMarkerCluster(clusterName) {
+		addMarkerCluster: function addMarkerCluster(clusterName, clusterImage) {
 			if (this.markerClusterList[clusterName] !== undefined) {
 				this.removeMarkerCluster(clusterName);
 			}
-			this.markerClusterList[clusterName] = new this.createMarkerCluster(clusterName);
+			this.markerClusterList[clusterName] = new this.createMarkerCluster(clusterName, clusterImage);
 		},
 		addMarkerClusters: function addMarkerClusters() {
 			var clusterNames = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
@@ -2587,7 +2578,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(5);
+window.axios = __webpack_require__(13);
 
 // window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -32419,7 +32410,7 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(58)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(58)(module)))
 
 /***/ }),
 /* 44 */
@@ -42673,7 +42664,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 58 */
@@ -42707,7 +42698,7 @@ module.exports = function(module) {
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(13);
+module.exports = __webpack_require__(12);
 
 
 /***/ })

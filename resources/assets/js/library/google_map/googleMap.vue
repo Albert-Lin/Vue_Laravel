@@ -116,7 +116,9 @@
 				this.addMarkers();
 			},
 			remove_marker: function(value){
+				console.log(this.markerList);
 				this.removeMarkers();
+				console.log('done');
 			},
 			marker_cluster: function(value){
 				if(value.action === 'add'){
@@ -222,7 +224,7 @@
 					this.clusters[marker.clusterName] = [];
 				}
 				if(this.markerClusterList[marker.clusterName] === undefined){
-					this.addMarkerCluster(marker.clusterName);
+					this.addMarkerCluster(marker.clusterName, marker.clusterImage);
 				}
 				this.markerList[marker.id] = markerItem;
 				this.clusters[marker.clusterName].push(markerItem);
@@ -260,45 +262,32 @@
 			
 			// MarkerCluster
 			markerClusterPlugin: function(){
-				MarkerClusterer.prototype.checkImagePath = function(){
-					let axios = require('axios');
-					return axios.get(this.imagePath_)
-						.then(function(response){ return true; })
-						.catch(function(error){ return false });
-				};
-				
-				// 使用 webpack 轉檔時，先把 async、await去掉
-				// 轉完後至產生的檔案中，相對應位置加上 async & await
-				MarkerClusterer.prototype.setupStyles_ = async function() {
+				MarkerClusterer.prototype.setupStyles_ = function() {
 					if (this.styles_.length) {
 						return;
 					}
-					
-					let checkResult = await this.checkImagePath();
-					let imagePath = (checkResult)? this.imagePath_ : 'http://vue.semanticlab.com/img/default.png';
-					
+
 					for (let i = 0, size; size = this.sizes[i]; i++) {
 						this.styles_.push({
-//							url: this.imagePath_,
-							url: imagePath,
+							url: this.imagePath_,
 							height: size,
 							width: size
 						});
 					}
 				};
 			},
-			createMarkerCluster: function(clusterName){
+			createMarkerCluster: function(clusterName, clusterImage){
 				return new MarkerClusterer(
 					this.map,
 					this.clusters[clusterName],
-					{imagePath: 'http://vue.semanticlab.com/img/'+clusterName+'.png'}
+					{imagePath: clusterImage}
 				);
 			},
-			addMarkerCluster: function(clusterName){
+			addMarkerCluster: function(clusterName, clusterImage){
 				if(this.markerClusterList[clusterName] !== undefined){
 					this.removeMarkerCluster(clusterName);
 				}
-				this.markerClusterList[clusterName] = new this.createMarkerCluster(clusterName);
+				this.markerClusterList[clusterName] = new this.createMarkerCluster(clusterName, clusterImage);
 			},
 			addMarkerClusters: function(clusterNames=undefined){
 				if(Array.isArray(clusterNames)){
