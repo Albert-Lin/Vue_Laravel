@@ -1089,7 +1089,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\infoWindow\\table_1.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\infoWindow\\table_1.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] table_1.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1158,9 +1158,9 @@ var googleMap = __webpack_require__(36).default;
 			},
 			marker_icons: [googleMap.markerIcon('http://vue.semanticlab.com/img/nodejs.png'), googleMap.markerIcon('http://vue.semanticlab.com/img/vue.png'), googleMap.markerIcon('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-256.png')],
 			cluster: true,
-			add_markers: [googleMap.marker({ position: [25.0274747, 121.5218001], icon: 0, label: '古亭', title: 'FIRST' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }), googleMap.marker({ position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }), googleMap.marker({ position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
+			add_markers: [{ position: [25.0274747, 121.5218001], icon: 0, label: '古~亭', title: 'FIRST' }, { position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }, { position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }, { position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
 				description: '臺中市葫蘆墩文化中心（全銜為臺中市政府文化局葫蘆墩文化中心）是位於臺灣臺中市豐原區的公立藝文場所。其前身為「臺中縣立文化中心」，西元2000年(民國99年)12月25日臺中縣市合併，台中市升格為直轄市，依據「葫蘆墩」為豐原的舊地名，是以將台中縣立文化中心更名為「葫蘆墩文化中心」，直屬臺中市政府文化局所轄，為大臺中地區山線最重要的文化機構。<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG/330px-%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG">',
-				clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' })],
+				clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }],
 			remove_markers: []
 		},
 		ctrlPanel: {
@@ -2369,6 +2369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		// Marker
 		addMarkerPreProcess: function addMarkerPreProcess(marker) {
+			marker.position = Array.isArray(marker.position) ? { lat: marker.position[0], lng: marker.position[1] } : marker.position;
 			marker.id = this.markerList.length;
 			marker.zIndex = this.markerList.length;
 			marker.icon = marker.icon !== undefined && !(marker.icon instanceof Object) ? this.markerIcons[marker.icon] : marker.icon;
@@ -2419,7 +2420,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				this.addMarkerCluster(marker.clusterName, marker.clusterImage);
 			}
 			this.markerList[marker.id] = markerItem;
-			this.clusters[marker.clusterName].push(markerItem);
+			//				this.clusters[marker.clusterName].push(markerItem);
+			this.clusters[marker.clusterName][marker.id] = markerItem;
 			this.markerClusterList[marker.clusterName].addMarkers([markerItem]);
 
 			// Map:
@@ -2641,10 +2643,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 
-	marker: function marker(optional) {
-		optional.position = Array.isArray(optional.position) ? { lat: optional.position[0], lng: optional.position[1] } : optional.position;
-		optional.label = typeof optional.label === "string" ? { text: optional.label } : optional.label;
-		return optional;
+	markerEvent: function markerEvent(eventName, callback) {
+		return {
+			event: eventName,
+			callback: callback
+		};
 	}
 
 });
@@ -32620,7 +32623,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\components\\FunctionBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FunctionBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32658,7 +32661,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\ControllerPanel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ControllerPanel.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32696,7 +32699,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\SolventoSOFT\\Git_Project\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
+Component.options.__file = "D:\\2.Personal\\0.Git\\Vue_Laravel\\resources\\assets\\js\\library\\google_map\\googleMap.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] googleMap.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -32974,7 +32977,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.3.3
+ * Vue.js v2.3.1
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -32996,9 +32999,6 @@ function isTrue (v) {
   return v === true
 }
 
-function isFalse (v) {
-  return v === false
-}
 /**
  * Check if value is primitive
  */
@@ -34394,8 +34394,7 @@ function getPropDefaultValue (vm, prop, key) {
   // return previous default value to avoid unnecessary watcher trigger
   if (vm && vm.$options.propsData &&
     vm.$options.propsData[key] === undefined &&
-    vm._props[key] !== undefined
-  ) {
+    vm._props[key] !== undefined) {
     return vm._props[key]
   }
   // call factory function for non-Function types
@@ -34669,7 +34668,6 @@ function cloneVNode (vnode) {
   cloned.ns = vnode.ns;
   cloned.isStatic = vnode.isStatic;
   cloned.key = vnode.key;
-  cloned.isComment = vnode.isComment;
   cloned.isCloned = true;
   return cloned
 }
@@ -34888,10 +34886,6 @@ function normalizeChildren (children) {
       : undefined
 }
 
-function isTextNode (node) {
-  return isDef(node) && isDef(node.text) && isFalse(node.isComment)
-}
-
 function normalizeArrayChildren (children, nestedIndex) {
   var res = [];
   var i, c, last;
@@ -34903,25 +34897,18 @@ function normalizeArrayChildren (children, nestedIndex) {
     if (Array.isArray(c)) {
       res.push.apply(res, normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i)));
     } else if (isPrimitive(c)) {
-      if (isTextNode(last)) {
-        // merge adjacent text nodes
-        // this is necessary for SSR hydration because text nodes are
-        // essentially merged when rendered to HTML strings
-        (last).text += String(c);
+      if (isDef(last) && isDef(last.text)) {
+        last.text += String(c);
       } else if (c !== '') {
         // convert primitive to vnode
         res.push(createTextVNode(c));
       }
     } else {
-      if (isTextNode(c) && isTextNode(last)) {
-        // merge adjacent text nodes
+      if (isDef(c.text) && isDef(last) && isDef(last.text)) {
         res[res.length - 1] = createTextVNode(last.text + c.text);
       } else {
         // default key for nested array children (likely generated by v-for)
-        if (isTrue(children._isVList) &&
-          isDef(c.tag) &&
-          isUndef(c.key) &&
-          isDef(nestedIndex)) {
+        if (isDef(c.tag) && isUndef(c.key) && isDef(nestedIndex)) {
           c.key = "__vlist" + nestedIndex + "_" + i + "__";
         }
         res.push(c);
@@ -35021,13 +35008,11 @@ function resolveAsyncComponent (
 
         if (isDef(res.timeout)) {
           setTimeout(function () {
-            if (isUndef(factory.resolved)) {
-              reject(
-                 true
-                  ? ("timeout (" + (res.timeout) + "ms)")
-                  : null
-              );
-            }
+            reject(
+               true
+                ? ("timeout (" + (res.timeout) + "ms)")
+                : null
+            );
           }, res.timeout);
         }
       }
@@ -35206,8 +35191,7 @@ function resolveSlots (
     // named slots should only be respected if the vnode was rendered in the
     // same context.
     if ((child.context === context || child.functionalContext === context) &&
-      child.data && child.data.slot != null
-    ) {
+        child.data && child.data.slot != null) {
       var name = child.data.slot;
       var slot = (slots[name] || (slots[name] = []));
       if (child.tag === 'template') {
@@ -35231,16 +35215,11 @@ function isWhitespace (node) {
 }
 
 function resolveScopedSlots (
-  fns, // see flow/vnode
-  res
+  fns
 ) {
-  res = res || {};
+  var res = {};
   for (var i = 0; i < fns.length; i++) {
-    if (Array.isArray(fns[i])) {
-      resolveScopedSlots(fns[i], res);
-    } else {
-      res[fns[i].key] = fns[i].fn;
-    }
+    res[fns[i][0]] = fns[i][1];
   }
   return res
 }
@@ -35558,7 +35537,7 @@ var index = 0;
  * Reset the scheduler's state.
  */
 function resetSchedulerState () {
-  index = queue.length = activatedChildren.length = 0;
+  queue.length = activatedChildren.length = 0;
   has = {};
   if (true) {
     circular = {};
@@ -35668,10 +35647,10 @@ function queueWatcher (watcher) {
       // if already flushing, splice the watcher based on its id
       // if already past its id, it will be run next immediately.
       var i = queue.length - 1;
-      while (i > index && queue[i].id > watcher.id) {
+      while (i >= 0 && queue[i].id > watcher.id) {
         i--;
       }
-      queue.splice(i + 1, 0, watcher);
+      queue.splice(Math.max(i, index) + 1, 0, watcher);
     }
     // queue the flush
     if (!waiting) {
@@ -36301,7 +36280,6 @@ function createFunctionalComponent (
   });
   if (vnode instanceof VNode) {
     vnode.functionalContext = context;
-    vnode.functionalOptions = Ctor.options;
     if (data.slot) {
       (vnode.data || (vnode.data = {})).slot = data.slot;
     }
@@ -36574,8 +36552,7 @@ function _createElement (
   }
   // support single function children as default scoped slot
   if (Array.isArray(children) &&
-    typeof children[0] === 'function'
-  ) {
+      typeof children[0] === 'function') {
     data = data || {};
     data.scopedSlots = { default: children[0] };
     children.length = 0;
@@ -36662,9 +36639,6 @@ function renderList (
       key = keys[i];
       ret[i] = render(val[key], key, i);
     }
-  }
-  if (isDef(ret)) {
-    (ret)._isVList = true;
   }
   return ret
 }
@@ -37065,8 +37039,7 @@ function dedupe (latest, extended, sealed) {
 
 function Vue$3 (options) {
   if ("development" !== 'production' &&
-    !(this instanceof Vue$3)
-  ) {
+    !(this instanceof Vue$3)) {
     warn('Vue is a constructor and should be called with the `new` keyword');
   }
   this._init(options);
@@ -37084,7 +37057,7 @@ function initUse (Vue) {
   Vue.use = function (plugin) {
     /* istanbul ignore if */
     if (plugin.installed) {
-      return this
+      return
     }
     // additional parameters
     var args = toArray(arguments, 1);
@@ -37104,7 +37077,6 @@ function initUse (Vue) {
 function initMixin$1 (Vue) {
   Vue.mixin = function (mixin) {
     this.options = mergeOptions(this.options, mixin);
-    return this
   };
 }
 
@@ -37396,14 +37368,7 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Object.defineProperty(Vue$3.prototype, '$ssrContext', {
-  get: function get () {
-    /* istanbul ignore next */
-    return this.$vnode.ssrContext
-  }
-});
-
-Vue$3.version = '2.3.3';
+Vue$3.version = '2.3.1';
 
 /*  */
 
@@ -37984,9 +37949,8 @@ function createPatchFunction (backend) {
     }
     // for slot content they should also get the scopeId from the host instance.
     if (isDef(i = activeInstance) &&
-      i !== vnode.context &&
-      isDef(i = i.$options._scopeId)
-    ) {
+        i !== vnode.context &&
+        isDef(i = i.$options._scopeId)) {
       nodeOps.setAttribute(vnode.elm, i, '');
     }
   }
@@ -38138,10 +38102,9 @@ function createPatchFunction (backend) {
     // if the new node is not cloned it means the render functions have been
     // reset by the hot-reload-api and we need to do a proper re-render.
     if (isTrue(vnode.isStatic) &&
-      isTrue(oldVnode.isStatic) &&
-      vnode.key === oldVnode.key &&
-      (isTrue(vnode.isCloned) || isTrue(vnode.isOnce))
-    ) {
+        isTrue(oldVnode.isStatic) &&
+        vnode.key === oldVnode.key &&
+        (isTrue(vnode.isCloned) || isTrue(vnode.isOnce))) {
       vnode.elm = oldVnode.elm;
       vnode.componentInstance = oldVnode.componentInstance;
       return
@@ -38232,9 +38195,8 @@ function createPatchFunction (backend) {
           // longer than the virtual children list.
           if (!childrenMatch || childNode) {
             if ("development" !== 'production' &&
-              typeof console !== 'undefined' &&
-              !bailed
-            ) {
+                typeof console !== 'undefined' &&
+                !bailed) {
               bailed = true;
               console.warn('Parent: ', elm);
               console.warn('Mismatching childNodes vs. VNodes: ', elm.childNodes, children);
@@ -39371,8 +39333,7 @@ function updateStyle (oldVnode, vnode) {
   var oldData = oldVnode.data;
 
   if (isUndef(data.staticStyle) && isUndef(data.style) &&
-    isUndef(oldData.staticStyle) && isUndef(oldData.style)
-  ) {
+      isUndef(oldData.staticStyle) && isUndef(oldData.style)) {
     return
   }
 
@@ -39510,14 +39471,12 @@ var animationEndEvent = 'animationend';
 if (hasTransition) {
   /* istanbul ignore if */
   if (window.ontransitionend === undefined &&
-    window.onwebkittransitionend !== undefined
-  ) {
+    window.onwebkittransitionend !== undefined) {
     transitionProp = 'WebkitTransition';
     transitionEndEvent = 'webkitTransitionEnd';
   }
   if (window.onanimationend === undefined &&
-    window.onwebkitanimationend !== undefined
-  ) {
+    window.onwebkitanimationend !== undefined) {
     animationProp = 'WebkitAnimation';
     animationEndEvent = 'webkitAnimationEnd';
   }
@@ -39757,9 +39716,8 @@ function enter (vnode, toggleDisplay) {
       var parent = el.parentNode;
       var pendingNode = parent && parent._pending && parent._pending[vnode.key];
       if (pendingNode &&
-        pendingNode.tag === vnode.tag &&
-        pendingNode.elm._leaveCb
-      ) {
+          pendingNode.tag === vnode.tag &&
+          pendingNode.elm._leaveCb) {
         pendingNode.elm._leaveCb();
       }
       enterHook && enterHook(el, cb);
@@ -40092,8 +40050,6 @@ function onCompositionStart (e) {
 }
 
 function onCompositionEnd (e) {
-  // prevent triggering an input event for no reason
-  if (!e.target.composing) { return }
   e.target.composing = false;
   trigger(e.target, 'input');
 }
@@ -40276,8 +40232,7 @@ var Transition = {
 
     // warn invalid mode
     if ("development" !== 'production' &&
-      mode && mode !== 'in-out' && mode !== 'out-in'
-    ) {
+        mode && mode !== 'in-out' && mode !== 'out-in') {
       warn(
         'invalid <transition> mode: ' + mode,
         this.$parent
@@ -40561,9 +40516,8 @@ setTimeout(function () {
     }
   }
   if ("development" !== 'production' &&
-    config.productionTip !== false &&
-    inBrowser && typeof console !== 'undefined'
-  ) {
+      config.productionTip !== false &&
+      inBrowser && typeof console !== 'undefined') {
     console[console.info ? 'info' : 'log'](
       "You are running Vue in development mode.\n" +
       "Make sure to turn on production mode when deploying for production.\n" +
@@ -40896,9 +40850,8 @@ function parseHTML (html, options) {
       // Close all the open elements, up the stack
       for (var i = stack.length - 1; i >= pos; i--) {
         if ("development" !== 'production' &&
-          (i > pos || !tagName) &&
-          options.warn
-        ) {
+            (i > pos || !tagName) &&
+            options.warn) {
           options.warn(
             ("tag <" + (stack[i].tag) + "> has no matching end tag.")
           );
@@ -41193,9 +41146,8 @@ function parse (
       // IE textarea placeholder bug
       /* istanbul ignore if */
       if (isIE &&
-        currentParent.tag === 'textarea' &&
-        currentParent.attrsMap.placeholder === text
-      ) {
+          currentParent.tag === 'textarea' &&
+          currentParent.attrsMap.placeholder === text) {
         return
       }
       var children = currentParent.children;
@@ -41699,17 +41651,17 @@ var modifierCode = {
 
 function genHandlers (
   events,
-  isNative,
+  native,
   warn
 ) {
-  var res = isNative ? 'nativeOn:{' : 'on:{';
+  var res = native ? 'nativeOn:{' : 'on:{';
   for (var name in events) {
     var handler = events[name];
     // #5330: warn click.right, since right clicks do not actually fire click events.
     if ("development" !== 'production' &&
-      name === 'click' &&
-      handler && handler.modifiers && handler.modifiers.right
-    ) {
+        name === 'click' &&
+        handler && handler.modifiers && handler.modifiers.right
+      ) {
       warn(
         "Use \"contextmenu\" instead of \"click.right\" since right clicks " +
         "do not actually fire \"click\" events."
@@ -42064,25 +42016,10 @@ function genScopedSlots (slots) {
 }
 
 function genScopedSlot (key, el) {
-  if (el.for && !el.forProcessed) {
-    return genForScopedSlot(key, el)
-  }
-  return "{key:" + key + ",fn:function(" + (String(el.attrsMap.scope)) + "){" +
+  return "[" + key + ",function(" + (String(el.attrsMap.scope)) + "){" +
     "return " + (el.tag === 'template'
       ? genChildren(el) || 'void 0'
-      : genElement(el)) + "}}"
-}
-
-function genForScopedSlot (key, el) {
-  var exp = el.for;
-  var alias = el.alias;
-  var iterator1 = el.iterator1 ? ("," + (el.iterator1)) : '';
-  var iterator2 = el.iterator2 ? ("," + (el.iterator2)) : '';
-  el.forProcessed = true; // avoid recursion
-  return "_l((" + exp + ")," +
-    "function(" + alias + iterator1 + iterator2 + "){" +
-      "return " + (genScopedSlot(key, el)) +
-    '})'
+      : genElement(el)) + "}]"
 }
 
 function genChildren (el, checkSkip) {
@@ -42091,10 +42028,9 @@ function genChildren (el, checkSkip) {
     var el$1 = children[0];
     // optimize single v-for
     if (children.length === 1 &&
-      el$1.for &&
-      el$1.tag !== 'template' &&
-      el$1.tag !== 'slot'
-    ) {
+        el$1.for &&
+        el$1.tag !== 'template' &&
+        el$1.tag !== 'slot') {
       return genElement(el$1)
     }
     var normalizationType = checkSkip ? getNormalizationType(children) : 0;

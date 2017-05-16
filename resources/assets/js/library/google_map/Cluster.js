@@ -16,7 +16,7 @@ export let Cluster = {
 			 * e.g., [
 			 *          'clusterName'=>
 			 *          {
-			 *              markers:[ google.maps.Marker, google.maps.Marker, ... ],
+			 *              markers:[ 'Marker.id'=>google.maps.Marker, 'Marker.id'=>google.maps.Marker, ... ], // map
 			 *              clusterImage:'../img/default.png'
 			 *          }
 			 *       ]
@@ -127,7 +127,7 @@ export let Cluster = {
 			
 			this.markerClusterObjectList[clusterName] = new MarkerClusterer(
 				this.map,
-				this.markerClusterList[clusterName],
+				this.markerClusterList[clusterName].markers,
 				{imagePath: this.markerClusterList[clusterName].clusterImage}
 			);
 		},

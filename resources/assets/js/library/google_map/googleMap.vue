@@ -176,6 +176,7 @@
 			
 			// Marker
 			addMarkerPreProcess: function(marker){
+				marker.position = (Array.isArray(marker.position))? {lat: marker.position[0], lng: marker.position[1]} : marker.position;
 				marker.id = this.markerList.length;
 				marker.zIndex = this.markerList.length;
 				marker.icon = (marker.icon !== undefined && !(marker.icon instanceof Object))? this.markerIcons[marker.icon]: marker.icon;
@@ -227,7 +228,8 @@
 					this.addMarkerCluster(marker.clusterName, marker.clusterImage);
 				}
 				this.markerList[marker.id] = markerItem;
-				this.clusters[marker.clusterName].push(markerItem);
+//				this.clusters[marker.clusterName].push(markerItem);
+				this.clusters[marker.clusterName][marker.id] = markerItem;
 				this.markerClusterList[marker.clusterName].addMarkers([markerItem]);
 				
 				// Map:

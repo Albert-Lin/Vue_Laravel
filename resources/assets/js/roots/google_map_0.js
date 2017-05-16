@@ -21,12 +21,13 @@ let googleMap = require('../library/google_map/GoogleMap.js').default;
 			],
 			cluster: true,
 			add_markers: [
-				googleMap.marker( { position: [25.0274747, 121.5218001], icon: 0, label: '古亭', title: 'FIRST'}	),
-				googleMap.marker( { position: [24.2526852, 120.7302684], icon: 1, label: {text: '文化中心', color:'#446666', fontFamily:'fantasy,微軟正黑體'}, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png'}	),
-				googleMap.marker( { position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: {text: 'I don\'t know', color:'#446666', fontFamily:'fantasy,微軟正黑體'}, title: 'THIRD'}	),
-				googleMap.marker( { position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
+				{ position: [25.0274747, 121.5218001], icon: 0, label: '古~亭', title: 'FIRST'},
+				{ position: [24.2526852, 120.7302684], icon: 1, label: {text: '文化中心', color:'#446666', fontFamily:'fantasy,微軟正黑體'}, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png'},
+				{ position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: {text: 'I don\'t know', color:'#446666', fontFamily:'fantasy,微軟正黑體'}, title: 'THIRD'},
+				{ position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
 					description:'臺中市葫蘆墩文化中心（全銜為臺中市政府文化局葫蘆墩文化中心）是位於臺灣臺中市豐原區的公立藝文場所。其前身為「臺中縣立文化中心」，西元2000年(民國99年)12月25日臺中縣市合併，台中市升格為直轄市，依據「葫蘆墩」為豐原的舊地名，是以將台中縣立文化中心更名為「葫蘆墩文化中心」，直屬臺中市政府文化局所轄，為大臺中地區山線最重要的文化機構。<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG/330px-%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG">',
-					clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png'} ),
+					clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png'}
+
 			],
 			remove_markers: []
 		},

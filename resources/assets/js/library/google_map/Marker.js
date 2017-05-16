@@ -7,7 +7,7 @@ export let Marker = {
 	props: ['marker_icons', 'add_markers', 'delete_markers'],
 	data(){
 		return {
-			markerList: [],
+			markerList: [], // map
 		};
 	},
 	computed: {
@@ -88,15 +88,24 @@ export let Marker = {
 		 * it's not standard property for google.maps.Marker
 		 *
 		 * @param markerOptional
+		 * @param {Boolean} cluster
 		 */
-		addMarkerPreProcess: function(markerOptional){
+		addMarkerPreProcess: function(markerOptional, cluster){
 			markerOptional.id = this.markerList.length; // *
 			markerOptional.zIndex = this.markerList.length;
 			markerOptional.position = (Array.isArray(markerOptional.position))? {lat: markerOptional.position[0], lng: markerOptional.position[1]} : markerOptional.position;
 			markerOptional.label = (typeof markerOptional.label === "string")? {text: markerOptional.label} : markerOptional.label;
 			markerOptional.icon = (markerOptional.icon !== undefined && !(markerOptional.icon instanceof Object))? this.markerIconsList[markerOptional.icon]: markerOptional.icon;
-			markerOptional.clusterName = (markerOptional.clusterName !== undefined)? markerOptional.clusterName : 'default';  // *
-			markerOptional.clusterImage = (markerOptional.clusterImage)? markerOptional.clusterImage : 'http://vue.semanticlab.com/img/default.png';  // *
+			// *
+			if(cluster === true){
+				markerOptional.clusterName = (markerOptional.clusterName !== undefined)? markerOptional.clusterName : 'default';
+				markerOptional.clusterImage = (markerOptional.clusterImage)? markerOptional.clusterImage : 'http://vue.semanticlab.com/img/default.png';
+			}
+			else{
+				markerOptional.clusterName = undefined;
+				markerOptional.clusterImage = undefined;
+			}
+
 			return markerOptional;
 		},
 		
@@ -165,7 +174,7 @@ export let Marker = {
 		 * @param {Boolean} cluster
 		 */
 		createMarker: function(markerOptional, cluster){
-			markerOptional = this.addMarkerPreProcess(markerOptional);
+			markerOptional = this.addMarkerPreProcess(markerOptional, cluster);
 			
 			// create google.maps.Marker object:
 			let markerItem = new google.maps.Marker(markerOptional);
@@ -176,18 +185,15 @@ export let Marker = {
 			// cluster:
 			if(cluster === true){
 				if(this.markerClusterList[markerOptional.clusterName] === undefined) {
-					this.markerClusterList[markerOptional.clusterName] = {
-						markers: [markerItem],
-						clusterImage: markerOptional.clusterImage // check note of Cluster.js/markerClusterList
-					};
+					this.markerClusterList[markerOptional.clusterName] = { markers: [], clusterImage: markerOptional.clusterImage };
+					this.createMarkerClusterObject(markerOptional.clusterName);
 				}
-				else{
-					this.markerClusterList[markerOptional.clusterName].markers.push(markerItem);
-				}
+
+				this.markerClusterList[markerOptional.clusterName].markers[markerOptional.id] = markerItem;
+				this.markerClusterObjectList[markerOptional.clusterName].redraw();
 			}
-			
-			something important --> when you needs to delete a marker, should delete all referenced place
-			this.markerList.push(markerItem);
+			//something important --> when you needs to delete a marker, should delete all referenced place
+			this.markerList[markerOptional.id] = markerItem;
 		},
 		/**
 		 * Called this.createMarker() to create google.maps.Marker objects
@@ -202,7 +208,17 @@ export let Marker = {
 			for(let i = 0; i < markerOptionals.length; i++){
 				this.createMarker(markerOptionals[i], cluster);
 			}
-		}
+		},
+
+
+		deleteMarker: function(markerId){
+			// get cluster name
+			// delete from: markerClusterList, markerList
+		},
+
+		deleteMarkers: function(markerIds){
+
+		},
 	},
 	mounted(){
 		this.addMarkers();
