@@ -20,6 +20,8 @@ export let Cluster = {
 			 *              clusterImage:'../img/default.png'
 			 *          }
 			 *       ]
+			 *
+			 *  *note: the most tricky part, we only use first marker of cluster to set cluster-image
 			 */
 			markerClusterList: [],
 			/**
@@ -30,7 +32,7 @@ export let Cluster = {
 	},
 	computed: {
 		/**
-		 *
+		 * Create action config for MarkerCluster
 		 * @returns {undefined}
 		 */
 		markerClusterAction: function(){
@@ -57,7 +59,7 @@ export let Cluster = {
 	},
 	watch: {
 		/**
-		 * 
+		 * Execute mapping function while this.markerClusterAction changed
 		 * @param newAction
 		 */
 		markerClusterAction: function(newAction){
@@ -147,6 +149,15 @@ export let Cluster = {
 				}
 			}
 		},
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
 		 *
 		 * @param clusterName

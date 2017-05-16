@@ -99,6 +99,65 @@ export let Marker = {
 			markerOptional.clusterImage = (markerOptional.clusterImage)? markerOptional.clusterImage : 'http://vue.semanticlab.com/img/default.png';  // *
 			return markerOptional;
 		},
+		
+		markerInfoWindow: function(markerOptional){
+			
+		},
+		/**
+		 * Main logic for register google.maps.Marker event
+		 *
+		 * notes: the format of eventOptional should be:
+		 *  {
+		 *      event: '{EVENT_NAME}',
+		 *      callback: {CALLBACK_FUNCTION}
+		 *  }
+		 *
+		 * @param markerItem
+		 * @param markerOptional
+		 * @param eventOptional
+		 */
+		registerMarkerEvent: function(markerItem, markerOptional, eventOptional){
+			let event = eventOptional.event;
+			let callback = (eventOptional.callback)? eventOptional.callback : function(){};
+			let infoWindowDom = document.getElementById('infoWindow');
+			// make sure the optional has 'event' property
+			if(event !== undefined){
+				// special setting for google.maps.InfoWindow
+				if(event === 'click' && infoWindowDom !== null && infoWindowDom !== undefined){
+					callback = function(){
+						callback();
+						this.markerInfoWindow(markerOptional);
+					};
+				}
+				markerItem.addListener(event, callback);
+			}
+			else{
+				console.error('【registerMarkerEvent error】: the event optional should include "event" property.');
+				console.error('event optional:');
+				console.error(eventOptional);
+			}
+		},
+		/**
+		 * Register Marker event(s) by given input marker optional
+		 *
+		 * @param markerItem
+		 * @param markerOptional
+		 */
+		registerMarkerEvents: function(markerItem, markerOptional){
+			let eventOptionals = markerOptional.events;
+			if(eventOptionals !== undefined){
+				// several events:
+				if(Array.isArray(eventOptionals)){
+					for(let i = 0; i < eventOptionals.length; i++){
+						this.registerMarkerEvent(markerItem, markerOptional, eventOptionals[i]);
+					}
+				}
+				// single event:
+				else{
+					this.registerMarkerEvent(markerItem, markerOptional, eventOptionals);
+				}
+			}
+		},
 		/**
 		 * Create google.maps.Marker object by given marker optional
 		 *
@@ -108,16 +167,36 @@ export let Marker = {
 		createMarker: function(markerOptional, cluster){
 			markerOptional = this.addMarkerPreProcess(markerOptional);
 			
-			// event ...
-			// infoWindow ...
-			// cluster ...
+			// create google.maps.Marker object:
+			let markerItem = new google.maps.Marker(markerOptional);
+			
+			// events:
+			this.registerMarkerEvents(markerItem, markerOptional);
+			
+			// cluster:
+			if(cluster === true){
+				if(this.markerClusterList[markerOptional.clusterName] === undefined) {
+					this.markerClusterList[markerOptional.clusterName] = {
+						markers: [markerItem],
+						clusterImage: markerOptional.clusterImage // check note of Cluster.js/markerClusterList
+					};
+				}
+				else{
+					this.markerClusterList[markerOptional.clusterName].markers.push(markerItem);
+				}
+			}
+			
+			something important --> when you needs to delete a marker, should delete all referenced place
+			this.markerList.push(markerItem);
 		},
 		/**
 		 * Called this.createMarker() to create google.maps.Marker objects
 		 * by given marker optionals
 		 *
 		 * @param {[]} markerOptionals
-		 * @param {Boolean} cluster
+		 * @param {Boolean} cluster:
+		 *  the flag for checking given markerOptionals should be cluster or not.
+		 *  e.g., ATM, supermarket and some data not the main target of application
 		 */
 		addMarkers: function(markerOptionals, cluster=true){
 			for(let i = 0; i < markerOptionals.length; i++){

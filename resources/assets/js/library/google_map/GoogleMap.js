@@ -28,10 +28,11 @@ export default {
 		};
 	},
 	
-	marker: (optional)=>{
-		optional.position = (Array.isArray(optional.position))? {lat: optional.position[0], lng: optional.position[1]} : optional.position;
-		optional.label = (typeof optional.label === "string")? {text: optional.label} : optional.label;
-		return optional;
-	},
+	markerEvent: (eventName, callback)=>{
+		return {
+			event: eventName,
+			callback: callback,
+		};
+	}
 	
 }
