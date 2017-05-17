@@ -1158,7 +1158,7 @@ var googleMap = __webpack_require__(36).default;
 			},
 			marker_icons: [googleMap.markerIcon('http://vue.semanticlab.com/img/nodejs.png'), googleMap.markerIcon('http://vue.semanticlab.com/img/vue.png'), googleMap.markerIcon('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-256.png')],
 			cluster: true,
-			add_markers: [{ position: [25.0274747, 121.5218001], icon: 0, label: '古~亭', title: 'FIRST' }, { position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }, { position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }, { position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
+			add_markers: [{ position: [25.0274747, 121.5218001], icon: 0, label: '古~亭', clusterName: 'A', title: 'FIRST' }, { position: [24.2526852, 120.7302684], icon: 1, label: { text: '文化中心', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }, { position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: { text: 'I don\'t know', color: '#446666', fontFamily: 'fantasy,微軟正黑體' }, title: 'THIRD' }, { position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
 				description: '臺中市葫蘆墩文化中心（全銜為臺中市政府文化局葫蘆墩文化中心）是位於臺灣臺中市豐原區的公立藝文場所。其前身為「臺中縣立文化中心」，西元2000年(民國99年)12月25日臺中縣市合併，台中市升格為直轄市，依據「葫蘆墩」為豐原的舊地名，是以將台中縣立文化中心更名為「葫蘆墩文化中心」，直屬臺中市政府文化局所轄，為大臺中地區山線最重要的文化機構。<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG/330px-%E8%91%AB%E8%98%86%E5%A2%A9%E6%96%87%E5%8C%96%E4%B8%AD%E5%BF%83.JPG">',
 				clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png' }],
 			remove_markers: []
@@ -2422,10 +2422,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.markerList[marker.id] = markerItem;
 			//				this.clusters[marker.clusterName].push(markerItem);
 			this.clusters[marker.clusterName][marker.id] = markerItem;
-			this.markerClusterList[marker.clusterName].addMarkers([markerItem]);
+			this.markerClusterList[marker.clusterName].addMarker(markerItem);
 
 			// Map:
-			markerItem.setMap(this.map);
+			//				markerItem.setMap(this.map);
 		},
 		addMarkers: function addMarkers() {
 			if (this.add_marker !== undefined && this.add_marker.length > 0) {
@@ -2439,8 +2439,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		removeMarker: function removeMarker(index) {
 			var marker = this.markerList[index];
 			if (marker !== undefined) {
-				marker.setMap(null);
+				for (var clusterName in this.clusters) {
+					for (var i = 0; i < this.clusters[clusterName].length; i++) {
+						if (this.clusters[clusterName][i] === marker) {
+							this.markerClusterList[clusterName].removeMarker(marker);
+							console.log("CLUSTER");
+							console.log(this.markerClusterList[clusterName]);
+							console.log(this.markerClusterList[clusterName].getMarkers());
+							console.log(this.clusters[clusterName]);
+							break;
+						}
+					}
+				}
+
+				console.log("MARKER");
 				this.markerList[index] = undefined;
+				marker = undefined;
+				console.log(this.markerList);
+				console.log("================");
 			}
 		},
 		removeMarkers: function removeMarkers() {

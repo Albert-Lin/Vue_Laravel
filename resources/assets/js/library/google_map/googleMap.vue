@@ -230,10 +230,10 @@
 				this.markerList[marker.id] = markerItem;
 //				this.clusters[marker.clusterName].push(markerItem);
 				this.clusters[marker.clusterName][marker.id] = markerItem;
-				this.markerClusterList[marker.clusterName].addMarkers([markerItem]);
+				this.markerClusterList[marker.clusterName].addMarker(markerItem);
 				
 				// Map:
-				markerItem.setMap(this.map);
+//				markerItem.setMap(this.map);
 			},
 			addMarkers: function(){
 				if(this.add_marker !== undefined && this.add_marker.length > 0){
@@ -247,8 +247,24 @@
 			removeMarker: function(index){
 				let marker = this.markerList[index];
 				if(marker !== undefined){
-					marker.setMap(null);
+					for(let clusterName in this.clusters){
+						for(let i = 0; i < this.clusters[clusterName].length; i++){
+							if(this.clusters[clusterName][i] === marker) {
+								this.markerClusterList[clusterName].removeMarker(marker);
+								console.log("CLUSTER");
+								console.log(this.markerClusterList[clusterName]);
+								console.log(this.markerClusterList[clusterName].getMarkers());
+								console.log(this.clusters[clusterName]);
+								break;
+							}
+						}
+					}
+
+					console.log("MARKER");
 					this.markerList[index] = undefined;
+					marker = undefined;
+					console.log(this.markerList);
+					console.log("================");
 				}
 			},
 			removeMarkers: function(){

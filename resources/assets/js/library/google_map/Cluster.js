@@ -149,49 +149,53 @@ export let Cluster = {
 				}
 			}
 		},
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		/**
+		 * Delete MarkerClusterer object,
+		 * if necessary, also delete cluster information in markerClusterList,
+		 * else reset google.maps.Markers in MarkerClusterer objects on map
 		 *
 		 * @param clusterName
+		 * @param {Boolean} deleteMarkerClusterList
 		 */
-		deleteMarkerClusterObject: function(clusterName){
-			
-			/*
-			 * LOGIC NEEDS TO FIX
-			 */
-			
-			this.markerClusterList[clusterName].clearMarkers();
-			this.markerClusterList[clusterName] = undefined;
-			for(let i = 0; i < this.clusters[clusterName].length; i++){
-				this.clusters[clusterName][i].setMap(this.map);
+		deleteMarkerClusterObject: function(clusterName, deleteMarkerClusterList=false){
+			this.markerClusterObjectList[clusterName].clearMarkers();
+			delete this.markerClusterObjectList[clusterName];
+
+			if(deleteMarkerClusterList === true){
+				for(let markerId in this.markerClusterList[clusterName].markers){
+					this.markerClusterList[clusterName].markers[markerId].setMap(null);
+					delete this.markerClusterList[clusterName].markers[markerId];
+				}
+				delete this.markerClusterList[clusterName];
+			}
+			else{
+				for(let markerId in this.markerClusterList[clusterName].markers){
+					this.markerClusterList[clusterName].markers[markerId].setMap(this.map);
+				}
 			}
 		},
 		/**
+		 * Delete several MarkerClusterer objects
 		 *
 		 * @param clusterNames
+		 * @param {Boolean} clearMarkerClusterList
 		 */
-		deleteMarkerClusterObjects: function(clusterNames=undefined){
-			/*
-			 * LOGIC NEEDS TO FIX
-			 */
-			
+		deleteMarkerClusterObjects: function(clusterNames=undefined, clearMarkerClusterList=false){
 			if(Array.isArray(clusterNames)){
+				// several cluster:
 				for(let i = 0; i < clusterNames.length; i++){
-					this.removeMarkerCluster(clusterNames[i]);
+					this.deleteMarkerClusterObject(clusterNames[i], clearMarkerClusterList);
+				}
+			}
+			else if(clusterNames === undefined){
+				// all clusters in markerClusterList:
+				for(let clusterName in this.markerClusterList){
+					this.deleteMarkerClusterObject(clusterName, clearMarkerClusterList);
 				}
 			}
 			else{
-				for(let clusterName in this.markerClusterList){
-					this.removeMarkerCluster(clusterName);
-				}
+				// single cluster:
+				this.deleteMarkerClusterObject(clusterNames, clearMarkerClusterList);
 			}
 		}
 	},

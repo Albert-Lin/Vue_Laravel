@@ -91,8 +91,8 @@ export let Marker = {
 		 * @param {Boolean} cluster
 		 */
 		addMarkerPreProcess: function(markerOptional, cluster){
-			markerOptional.id = this.markerList.length; // *
-			markerOptional.zIndex = this.markerList.length;
+			markerOptional.id = Object.keys(this.markerList).length; // *
+			markerOptional.zIndex = Object.keys(this.markerList).length;
 			markerOptional.position = (Array.isArray(markerOptional.position))? {lat: markerOptional.position[0], lng: markerOptional.position[1]} : markerOptional.position;
 			markerOptional.label = (typeof markerOptional.label === "string")? {text: markerOptional.label} : markerOptional.label;
 			markerOptional.icon = (markerOptional.icon !== undefined && !(markerOptional.icon instanceof Object))? this.markerIconsList[markerOptional.icon]: markerOptional.icon;
@@ -108,7 +108,10 @@ export let Marker = {
 
 			return markerOptional;
 		},
-		
+		/**
+		 *
+		 * @param markerOptional
+		 */
 		markerInfoWindow: function(markerOptional){
 			
 		},
@@ -188,11 +191,17 @@ export let Marker = {
 					this.markerClusterList[markerOptional.clusterName] = { markers: [], clusterImage: markerOptional.clusterImage };
 					this.createMarkerClusterObject(markerOptional.clusterName);
 				}
-
 				this.markerClusterList[markerOptional.clusterName].markers[markerOptional.id] = markerItem;
-				this.markerClusterObjectList[markerOptional.clusterName].redraw();
+				this.markerClusterObjectList[markerOptional.clusterName].addMarker(markerItem);
 			}
-			//something important --> when you needs to delete a marker, should delete all referenced place
+
+			// setMap:
+			// set map only if current google.maps.Marker do not need cluster
+			if(cluster !== true){
+				markerItem.setMap(this.map);
+			}
+
+
 			this.markerList[markerOptional.id] = markerItem;
 		},
 		/**
@@ -209,15 +218,48 @@ export let Marker = {
 				this.createMarker(markerOptionals[i], cluster);
 			}
 		},
-
-
+		/**
+		 *
+		 * @param markerId
+		 */
 		deleteMarker: function(markerId){
-			// get cluster name
-			// delete from: markerClusterList, markerList
+			let marker = this.markerList[markerId];
+			let clusterName = marker.clusterName;
+			if(clusterName !== undefined){
+				// markerClusterObjectList:
+				this.markerClusterObjectList[clusterName].removeMarker(marker);
+
+				// markerClusterList:
+				if(this.markerClusterList[clusterName].markers[markerId] !== undefined){
+					this.markerClusterList[clusterName].markers[markerId].setMap(null);
+					delete this.markerClusterList[clusterName].markers[markerId];
+				}
+
+				// delete markerClusterObjectList & markerClusterList:
+				if(this.markerClusterObjectList[clusterName].getMarkers().length === 0){
+					this.deleteMarkerClusterObject(clusterName, true);
+				}
+			}
+			else{
+				this.markerList[markerId].setMap(null);
+			}
+
+			delete this.markerList[markerId];
+			marker = undefined;
 		},
-
+		/**
+		 *
+		 * @param markerIds
+		 */
 		deleteMarkers: function(markerIds){
-
+			if(Array.isArray(markerIds)){
+				for(let i = 0; i < markerIds.length; i++){
+					this.deleteMarker(markerIds[i]);
+				}
+			}
+			else{
+				this.deleteMarker(markerIds);
+			}
 		},
 	},
 	mounted(){

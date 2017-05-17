@@ -21,7 +21,7 @@ let googleMap = require('../library/google_map/GoogleMap.js').default;
 			],
 			cluster: true,
 			add_markers: [
-				{ position: [25.0274747, 121.5218001], icon: 0, label: '古~亭', title: 'FIRST'},
+				{ position: [25.0274747, 121.5218001], icon: 0, label: '古~亭', clusterName: 'A', title: 'FIRST'},
 				{ position: [24.2526852, 120.7302684], icon: 1, label: {text: '文化中心', color:'#446666', fontFamily:'fantasy,微軟正黑體'}, title: 'SEC', clusterName: 'A', clusterImage: 'http://vue.semanticlab.com/img/m2.png'},
 				{ position: [24.2521503, 120.7292076], icon: googleMap.markerIcon('https://www.cloudcms.com/images/drivers/javascript/xjavascript.891e032e.png.pagespeed.ic.iBvyvS-EQY.png'), label: {text: 'I don\'t know', color:'#446666', fontFamily:'fantasy,微軟正黑體'}, title: 'THIRD'},
 				{ position: [24.2526852, 120.7302684], icon: 2, label: '文化中心 2', title: 'SEC 2',
