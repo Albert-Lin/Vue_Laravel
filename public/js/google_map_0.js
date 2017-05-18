@@ -2238,7 +2238,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			windowList: [],
 
 			// properties of table_1.vue
-			info_window_prop: undefined
+			info_window_prop: undefined,
+
+			message: 'XXXX'
 		};
 	},
 
@@ -2345,6 +2347,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
+
+		log: function log() {
+			console.log(this.message);
+		},
+
 		// MAp
 		googleMapInit: function googleMapInit() {
 			this.map = new google.maps.Map(document.getElementById('map'), {
@@ -2400,6 +2407,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			// Event:
 			markerItem.addListener('click', function () {
+
+				current.log();
+
 				current.info_window_prop = marker;
 				setTimeout(function () {
 					windowItem.open(map, markerItem);

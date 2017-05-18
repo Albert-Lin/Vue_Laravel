@@ -1,8 +1,9 @@
 import {Cluster} from './Cluster';
+import {InfoWindow} from './InfoWindow';
 
 export let Marker = {
 
-	mixins: [Cluster],
+	mixins: [Cluster, InfoWindow],
 	components: [],
 	props: ['marker_icons', 'add_markers', 'delete_markers'],
 	data(){
@@ -55,6 +56,9 @@ export let Marker = {
 			else if(!(this.delete_markers instanceof Object)){
 				result = [this.delete_markers];
 			}
+			else{
+				console.log("Can not delete " + this.delete_markers);
+			}
 			
 			return result;
 		}
@@ -73,8 +77,12 @@ export let Marker = {
 		/**
 		 *
 		 */
-		markersToDelete: function(){
+		markersToDelete: function(newConfig){
 			// delete marker(s)
+			if(newConfig !== undefined){
+				this.deleteMarkers(newConfig);
+				this.markersToDelete = undefined;
+			}
 		},
 	},
 	methods: {
@@ -109,13 +117,6 @@ export let Marker = {
 			return markerOptional;
 		},
 		/**
-		 *
-		 * @param markerOptional
-		 */
-		markerInfoWindow: function(markerOptional){
-			
-		},
-		/**
 		 * Main logic for register google.maps.Marker event
 		 *
 		 * notes: the format of eventOptional should be:
@@ -125,10 +126,10 @@ export let Marker = {
 		 *  }
 		 *
 		 * @param markerItem
-		 * @param markerOptional
 		 * @param eventOptional
 		 */
-		registerMarkerEvent: function(markerItem, markerOptional, eventOptional){
+		registerMarkerEvent: function(markerItem, eventOptional){
+			let current = this;
 			let event = eventOptional.event;
 			let callback = (eventOptional.callback)? eventOptional.callback : function(){};
 			let infoWindowDom = document.getElementById('infoWindow');
@@ -136,9 +137,12 @@ export let Marker = {
 			if(event !== undefined){
 				// special setting for google.maps.InfoWindow
 				if(event === 'click' && infoWindowDom !== null && infoWindowDom !== undefined){
+					this.createInfoWindow();
 					callback = function(){
+						// original event which user set
 						callback();
-						this.markerInfoWindow(markerOptional);
+						// open google.maps.InfoWindow
+						current.openInfoWindow(markerItem);
 					};
 				}
 				markerItem.addListener(event, callback);
@@ -244,6 +248,7 @@ export let Marker = {
 				this.markerList[markerId].setMap(null);
 			}
 
+			delete this.infoWindowList[markerId];
 			delete this.markerList[markerId];
 			marker = undefined;
 		},
