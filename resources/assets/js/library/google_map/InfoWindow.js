@@ -19,7 +19,7 @@ export let InfoWindow = {
 		infoWindowProps: function(){
 			let result = (this.infoWindowProp)? this.infoWindowProp : {};
 
-						
+
 
 		}
 	},

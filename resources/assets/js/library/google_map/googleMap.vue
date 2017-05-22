@@ -12,12 +12,12 @@
 <script>
 
 	import {Marker} from './Marker';
-	import {InfoWindowComponent} from './infoWindow/InfoWindowComponent.vue';
+	import InfoWindowComponent from './infoWindow/InfoWindowComponent.vue';
 
 	export default {
 		mixins: [Marker],
 		components: {
-			info_window: require('./infoWindow/InfoWindowComponent.vue'),
+			info_window: InfoWindowComponent,
 		},
 		props: ['center', 'mapControllers'],
 		data(){

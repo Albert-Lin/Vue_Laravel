@@ -15,7 +15,7 @@
 
 
 <script>
-	export default {
+	module.exports = {
 		props: ['prop'],
 		data(){ return{}; },
 		computed: {},
