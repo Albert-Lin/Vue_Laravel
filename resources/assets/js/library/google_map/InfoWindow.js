@@ -10,13 +10,16 @@ export let InfoWindow = {
 			infoWindowProp: undefined,
 		};
 	},
-	watch:{
+	computed:{
 		/**
 		 * Not necessary, usually used for
 		 * initial properties of InfoWindow component,
 		 * make sure all the necessary properties not undefined
 		 */
-		infoWindowProp: function(){
+		infoWindowProps: function(){
+			let result = (this.infoWindowProp)? this.infoWindowProp : {};
+
+						
 
 		}
 	},

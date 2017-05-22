@@ -266,9 +266,5 @@ export let Marker = {
 				this.deleteMarker(markerIds);
 			}
 		},
-	},
-	mounted(){
-		this.addMarkers();
 	}
-	
 };
